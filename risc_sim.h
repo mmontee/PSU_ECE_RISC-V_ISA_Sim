@@ -29,26 +29,25 @@ void parse_intput(FILE *fp)
 			count++;
 			peekChar = line[count];
 		}
-		// Now copy the 8 byte word into an array, this isnt needed, could use line[] but keeping for now
-		char instructionString[8] = {0};
-		memcpy(instructionString, &line[count + 2], 8);
-		// Place the individual bytes into memory
+		// Now copy the 8 byte word into memory 1 byte at a time
+		count += 2; // Jump past the ': '
 		for(int i = 6; i >= 0; i-=2)
 		{
 			char byteString[3] = {0, 0, '\0'};
-			memcpy(byteString, &instructionString[i], 2);
+			memcpy(byteString, &line[count + i], 2);
 			array[arrayIndex] = (int)strtol(byteString, NULL, 16);
 			arrayIndex++;
 		}
 	}
 
 }
-// Read a word from memory. User must provide alligned reference or fails.
+// Read a word from memory. User must provide aligned reference or fails.
 uint32_t read_word(int offset)
 {
-	if(offset%4 != 0)
+	// If not word aligned fail.
+	if((offset % 4) != 0)
 	{
-		printf("un-alligned reference\n");
+		printf("un-aligned reference\n");
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -62,12 +61,13 @@ uint32_t read_word(int offset)
 	}
 }
 
-// Write a given word to memory. User must provide alligned reference or fails.
+// Write a given word to memory. User must provide aligned reference or fails.
 void write_word(int offset, uint32_t word)
 {
-	if(offset%4 != 0)
+	// If not word aligned fail.
+	if((offset % 4) != 0)
 	{
-		printf("un-alligned reference\n");
+		printf("un-aligned reference\n");
 		exit(EXIT_FAILURE);
 	}
 	else
