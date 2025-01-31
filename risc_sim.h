@@ -29,7 +29,7 @@ void parse_intput(FILE *fp)
 			count++;
 			peekChar = line[count];
 		}
-		// Now copy the 8 byte word into an array
+		// Now copy the 8 byte word into an array, this isnt needed, could use line[] but keeping for now
 		char instructionString[8] = {0};
 		memcpy(instructionString, &line[count + 2], 8);
 		// Place the individual bytes into memory
