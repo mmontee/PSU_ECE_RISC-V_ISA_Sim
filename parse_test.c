@@ -1,9 +1,3 @@
-/* 	Simple C program to parse .din into commands and addresses.
-	A file path can be given as process argument. Otherwise the default is used.
-	Program assumes perect input data and structure.
-
-	Mitch Montee 11/05/24
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -12,7 +6,6 @@
 
 // Definitions
 #define DEBUG
-
 
 int main(int argc, char *argv[])
 {
