@@ -4,9 +4,6 @@
 #include <string.h>
 #include "./risc_sim.h"
 
-// Definitions
-#define DEBUG
-
 int main(int argc, char *argv[])
 {
 	// Open the default file or the file given as an argument
@@ -22,27 +19,28 @@ int main(int argc, char *argv[])
 	}
 
 	parse_intput(inputFile);
-
-	#ifdef DEBUG
+	// Print the bytes
 	for(int i = 0; i < instructionCount * 4; i++)
 	{
 		printf("Index = %d : Byte 0x%02X\n", i , array[i]);
 	}
 	printf("\n");
+	// Print the words
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
 	}
 	printf("\n");
+	// Modify some words
 	printf("Write 0x1234ABCD to index 0\n");
 	write_word(0, 0x1234ABCD);
 	printf("Write 0xFEDCBA33 to index 16\n\n");
 	write_word(16, 0xFEDCBA33);
+	// Print the words again
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
 	}
-	#endif
 	fclose(inputFile);
 	return 0;
 }
