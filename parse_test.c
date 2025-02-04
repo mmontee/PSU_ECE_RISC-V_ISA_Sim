@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include "./risc_sim.h"
+
+int main(int argc, char *argv[])
+{
+	// Open the default file or the file given as an argument
+	FILE *inputFile;
+	if(argc <= 1)
+	{
+		inputFile = fopen(defaultPath, "r");
+	}
+	else
+	{
+		inputFile = fopen(argv[1], "r");
+		printf("%s\n", argv[1]);
+	}
+
+	parse_intput(inputFile);
+	// Print the bytes
+	for(int i = 0; i < instructionCount * 4; i++)
+	{
+		printf("Index = %d : Byte 0x%02X\n", i , array[i]);
+	}
+	printf("\n");
+	// Print the words
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
+	}
+	printf("\n");
+	// Modify some words
+	printf("Write 0x1234ABCD to index 0\n");
+	write_word(0, 0x1234ABCD);
+	printf("Write 0xFEDCBA33 to index 16\n\n");
+	write_word(16, 0xFEDCBA33);
+	// Print the words again
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
+	}
+	fclose(inputFile);
+	return 0;
+}
+
