@@ -127,10 +127,10 @@ void parse_intput(FILE *fp, int addressFlag)
         }
 }
 // Read a word from memory. User must provide aligned reference or fails.
-uint32_t read_word(int offset)
+uint32_t read_word(uint32_t address)
 {
 	// If not word aligned fail.
-	if((offset % 4) != 0)
+	if((address % 4) != 0)
 	{
 		printf("un-aligned reference on read word\n");
 		exit(EXIT_FAILURE);
@@ -140,17 +140,17 @@ uint32_t read_word(int offset)
 		uint32_t word = 0;
 		for(int i = 0; i < 4; i++)
 		{
-			word |= (programMemory[startAddress + offset + i] << i * 8);
+			word |= (programMemory[startAddress + address + i] << i * 8);
 		}
 		return word;
 	}
 }
 
 // Write a given word to memory. User must provide aligned reference or fails.
-void write_word(int offset, uint32_t word)
+void write_word(uint32_t address, uint32_t word)
 {
 	// If not word aligned fail.
-	if((offset % 4) != 0)
+	if((address % 4) != 0)
 	{
 		printf("un-aligned reference on write word\n");
 		exit(EXIT_FAILURE);
@@ -159,14 +159,14 @@ void write_word(int offset, uint32_t word)
 	{
 		for(int i = 0; i < 4; i++)
 		{
-			programMemory[startAddress + offset + i] = (word >> i * 8);
+			programMemory[startAddress + address + i] = (word >> i * 8);
 		}
 	}
 }
 
 // Returns byte in the LSBs of a 32bit
 // sign_extend = 0 for no sign extension.
-uint32_t read_byte(int address, int sign_extend)
+uint32_t read_byte(uint32_t address, int sign_extend)
 {
 	uint32_t reg = programMemory[startAddress + address];
 	if(sign_extend && reg & 0x80)
@@ -177,9 +177,8 @@ uint32_t read_byte(int address, int sign_extend)
 }
 
 
-// stores byte at the given address
-// sign_extend = 0 for no sign extension.
-void store_byte(uint32_t address, uint8_t value)
+// stores LSB or value at the given address
+void store_byte(uint32_t address, uint32_t value)
 {
 	programMemory[startAddress + address] &= 0xFFFFFF00;
 	programMemory[startAddress + address] |= value;
@@ -188,7 +187,7 @@ void store_byte(uint32_t address, uint8_t value)
 
 // Returns LSBs of a 32bit. Fails with un-aligned address
 // sign_extend = 0 for no sign extension.
-uint32_t read_upper_half(int address, int sign_extend)
+uint32_t read_upper_half(uint32_t address, int sign_extend)
 {
 	if((address % 4) != 0)
 	{
@@ -205,8 +204,7 @@ uint32_t read_upper_half(int address, int sign_extend)
 	return reg;
 }
 
-// Returns LSBs of a 32bit. Fails with un-aligned address
-// sign_extend = 0 for no sign extension.
+// Store lower 16 bits of value at address
 void store_half_word(uint32_t address, uint32_t value)
 {
 	if((address % 4) != 0)
@@ -221,7 +219,7 @@ void store_half_word(uint32_t address, uint32_t value)
 
 // Returns LSBs of a 32bit. Fails with un-aligned address
 // sign_extend = 0 for no sign extension.
-uint32_t read_lower_half(int address, int sign_extend)
+uint32_t read_lower_half(uint32_t address, int sign_extend)
 {
 	if((address % 4) != 0)
 	{
@@ -238,7 +236,7 @@ uint32_t read_lower_half(int address, int sign_extend)
 	return reg;
 }
 
-void print_reg(int reg)
+void print_reg(uint32_t reg)
 {
 	uint32_t localReg = registers[reg];
 	printf("REG x%02d = 0x%08X = ", reg, localReg);
