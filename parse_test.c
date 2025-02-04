@@ -6,26 +6,58 @@
 
 int main(int argc, char *argv[])
 {
-	// Open the default file or the file given as an argument
-	FILE *inputFile;
-	if(argc <= 1)
-	{
-		inputFile = fopen(defaultPath, "r");
-	}
-	else
-	{
-		inputFile = fopen(argv[1], "r");
-		printf("%s\n", argv[1]);
-	}
+	parse_args(argc, argv);
 
-	parse_intput(inputFile);
+
+	parse_intput(inputFilePath, inputFileType);
 	// Print the bytes
+	printf("Print bytes with no sign extension-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i++)
 	{
-		printf("Index = %d : Byte 0x%02X\n", i , array[i]);
+		printf("Index = %d : Byte 0x%08X\n", i , read_byte(i, 0));
+	}
+	printf("\n");
+	printf("Print bytes with sign extension-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i++)
+	{
+		printf("Index = %d : Byte 0x%08X\n", i , read_byte(i, 1));
 	}
 	printf("\n");
 	// Print the words
+	printf("Print the words-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
+	}
+	printf("\n");
+	// Print the lower half
+	printf("Print lower half of the words with no sign extension-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_lower_half(i, 0));
+	}
+	printf("\n");
+	printf("Print lower half of the words with sign extension-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_lower_half(i, 1));
+	}
+	// Print the upper half
+	printf("Print upper half of the words with no sign extension-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_upper_half(i, 0));
+	}
+	printf("\n");
+	printf("Print upper half of the words with sign extension-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_upper_half(i, 1));
+	}
+	printf("\n");
+
+	// Print the words again
+	printf("Print the words-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
@@ -34,14 +66,33 @@ int main(int argc, char *argv[])
 	// Modify some words
 	printf("Write 0x1234ABCD to index 0\n");
 	write_word(0, 0x1234ABCD);
-	printf("Write 0xFEDCBA33 to index 16\n\n");
+	printf("Write 0xFEDCBA33 to index 16\n");
 	write_word(16, 0xFEDCBA33);
+	printf("\n");
+
+	// Modify some half words
+	printf("Write 0xXXXXBEEF to index 4\n");
+	store_half_word(0, 0x1234ABCD);
+	printf("\n");
+
+	// Modify some half words
+	printf("Write 0xXXXXFFXX to index 8 + 1\n");
+	store_byte(8 + 1, 0xFF);
+	printf("Write 0xEEXXXXXX to index 8 + 3\n");
+	store_byte(8 + 3, 0xEE);
+	printf("\n");
+
 	// Print the words again
+	printf("Print the words-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
 	}
-	fclose(inputFile);
+	printf("\n");
+	printf("Load 0xDEAD1234 in reg x00 and print the register contents-----------------\n");
+	registers[0] = 0xDEAD1234;
+	print_reg(0);
+	fclose(inputFilePath);
 	return 0;
 }
 
