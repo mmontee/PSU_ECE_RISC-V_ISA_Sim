@@ -34,25 +34,33 @@ int main(int argc, char *argv[])
 	printf("Print lower half of the words with no sign extension-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
-		printf("@index = %d :  word = 0x%08X\n", i, read_lower_word(i, 0));
+		printf("@index = %d :  word = 0x%08X\n", i, read_lower_half(i, 0));
 	}
 	printf("\n");
 	printf("Print lower half of the words with sign extension-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
-		printf("@index = %d :  word = 0x%08X\n", i, read_lower_word(i, 1));
+		printf("@index = %d :  word = 0x%08X\n", i, read_lower_half(i, 1));
 	}
 	// Print the upper half
 	printf("Print upper half of the words with no sign extension-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
-		printf("@index = %d :  word = 0x%08X\n", i, read_upper_word(i, 0));
+		printf("@index = %d :  word = 0x%08X\n", i, read_upper_half(i, 0));
 	}
 	printf("\n");
 	printf("Print upper half of the words with sign extension-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
 	{
-		printf("@index = %d :  word = 0x%08X\n", i, read_upper_word(i, 1));
+		printf("@index = %d :  word = 0x%08X\n", i, read_upper_half(i, 1));
+	}
+	printf("\n");
+
+	// Print the words again
+	printf("Print the words-----------------\n");
+	for(int i = 0; i < instructionCount * 4; i+=4)
+	{
+		printf("@index = %d :  word = 0x%08X\n", i, read_word(i));
 	}
 	printf("\n");
 	// Modify some words
@@ -61,6 +69,19 @@ int main(int argc, char *argv[])
 	printf("Write 0xFEDCBA33 to index 16\n");
 	write_word(16, 0xFEDCBA33);
 	printf("\n");
+
+	// Modify some half words
+	printf("Write 0xXXXXBEEF to index 4\n");
+	store_half_word(0, 0x1234ABCD);
+	printf("\n");
+
+	// Modify some half words
+	printf("Write 0xXXXXFFXX to index 8 + 1\n");
+	store_byte(8 + 1, 0xFF);
+	printf("Write 0xEEXXXXXX to index 8 + 3\n");
+	store_byte(8 + 3, 0xEE);
+	printf("\n");
+
 	// Print the words again
 	printf("Print the words-----------------\n");
 	for(int i = 0; i < instructionCount * 4; i+=4)
