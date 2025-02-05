@@ -1,21 +1,48 @@
+# Compiler and flags
+CC = gcc
+CFLAGS = -Wall -Wextra -g
 
+# Source directories
+SRC_DIR = .
+MODULES_DIR = modules
+TESTS_DIR = tests
 
-main.o: main.c modules/risc_sim.h modules/memory.h
-	gcc -Wall -Wextra -g -c main.c
+# Module objects (generic)
+MODULE_OBJS = $(MODULES_DIR)/memory.o $(MODULES_DIR)/risc_sim.o  # Add other module objects as needed
 
-tests/parse_test.o: tests/parse_test.c modules/risc_sim.h modules/memory.h
-	gcc -Wall -Wextra -g -c tests/parse_test.c -o tests/parse_test.o
+# Executables and their specific objects
+MAIN_EXE = main
+MAIN_OBJS = $(SRC_DIR)/main.o $(MODULE_OBJS)  # Make sure all needed modules are here
 
-modules/memory.o: modules/memory.c modules/memory.h
-	gcc -Wall -Wextra -g -c modules/memory.c -o modules/memory.o
+TEST_EXE = parse_test
+TEST_OBJS = $(TESTS_DIR)/parse_test.o $(MODULE_OBJS)
 
-modules/risc_sim.o: modules/risc_sim.c modules/risc_sim.h
-	gcc -Wall -Wextra -g -c modules/risc_sim.c -o modules/risc_sim.o
+# All objects (for cleaning)
+ALL_OBJS = $(MAIN_OBJS) $(TEST_OBJS)
 
-parse_test: tests/parse_test.o modules/memory.o modules/risc_sim.o
-	gcc -Wall -Wextra -g tests/parse_test.o modules/memory.o modules/risc_sim.o -o parse_test
-	rm -f tests/parse_test.o modules/memory.o modules/risc_sim.o *.o *.swp
+# Rules (with explicit dependencies)
 
+$(SRC_DIR)/main.o: $(SRC_DIR)/main.c $(MODULES_DIR)/risc_sim.h $(MODULES_DIR)/memory.h # Add other headers if needed
+	$(CC) $(CFLAGS) -c $< -o $@
 
+$(TESTS_DIR)/parse_test.o: $(TESTS_DIR)/parse_test.c $(MODULES_DIR)/risc_sim.h $(MODULES_DIR)/memory.h # Add other headers if needed
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(MODULES_DIR)/memory.o: $(MODULES_DIR)/memory.c $(MODULES_DIR)/memory.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(MODULES_DIR)/risc_sim.o: $(MODULES_DIR)/risc_sim.c $(MODULES_DIR)/risc_sim.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TEST_EXE): $(TEST_OBJS)
+	$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST_EXE)
+	rm -f $(ALL_OBJS) *.o *.swp
+
+$(MAIN_EXE): $(MAIN_OBJS)
+	$(CC) $(CFLAGS) $(MAIN_OBJS) -o $(MAIN_EXE)
+	rm -f $(ALL_OBJS) *.o *.swp
+	
 clean:
-	rm -f app parse_test main.o tests/parse_test.o modules/memory.o modules/risc_sim.o *.o *.swp
+	rm -f $(MAIN_EXE) $(TEST_EXE) $(ALL_OBJS) *.o *.swp
+
+.PHONY: clean
