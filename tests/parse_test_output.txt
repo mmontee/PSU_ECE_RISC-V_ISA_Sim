@@ -1,0 +1,153 @@
+mmontee@Mitchs-ThinkPad:~/_486$ sudo ./parse_test -f ./input_files/risc_wrdAlgn.din -s 4000 -a 32000 -ft 1
+Input file path taken : ./input_files/risc_wrdAlgn.din
+Stack Size = 4000
+Start Address = 32000
+Input File Type = 1
+Instruction count = 8
+Printe bytes with no sign extension-----------------
+Index = 0 : Byte 0x000000D0
+Index = 1 : Byte 0x000000BA
+Index = 2 : Byte 0x000000AD
+Index = 3 : Byte 0x0000000B
+Index = 4 : Byte 0x000000D2
+Index = 5 : Byte 0x000000BA
+Index = 6 : Byte 0x000000AD
+Index = 7 : Byte 0x0000001B
+Index = 8 : Byte 0x000000D0
+Index = 9 : Byte 0x000000BA
+Index = 10 : Byte 0x000000AD
+Index = 11 : Byte 0x0000002B
+Index = 12 : Byte 0x000000D0
+Index = 13 : Byte 0x000000BA
+Index = 14 : Byte 0x000000AD
+Index = 15 : Byte 0x0000000B
+Index = 16 : Byte 0x000000D1
+Index = 17 : Byte 0x000000BA
+Index = 18 : Byte 0x000000AD
+Index = 19 : Byte 0x0000001B
+Index = 20 : Byte 0x000000D0
+Index = 21 : Byte 0x000000BA
+Index = 22 : Byte 0x000000AD
+Index = 23 : Byte 0x0000002B
+Index = 24 : Byte 0x000000D0
+Index = 25 : Byte 0x000000BA
+Index = 26 : Byte 0x000000D0
+Index = 27 : Byte 0x000000BA
+Index = 28 : Byte 0x00000033
+Index = 29 : Byte 0x00000067
+Index = 30 : Byte 0x000000E6
+Index = 31 : Byte 0x000000FE
+
+Print bytes with sign extension-----------------
+Index = 0 : Byte 0xFFFFFFD0
+Index = 1 : Byte 0xFFFFFFBA
+Index = 2 : Byte 0xFFFFFFAD
+Index = 3 : Byte 0x0000000B
+Index = 4 : Byte 0xFFFFFFD2
+Index = 5 : Byte 0xFFFFFFBA
+Index = 6 : Byte 0xFFFFFFAD
+Index = 7 : Byte 0x0000001B
+Index = 8 : Byte 0xFFFFFFD0
+Index = 9 : Byte 0xFFFFFFBA
+Index = 10 : Byte 0xFFFFFFAD
+Index = 11 : Byte 0x0000002B
+Index = 12 : Byte 0xFFFFFFD0
+Index = 13 : Byte 0xFFFFFFBA
+Index = 14 : Byte 0xFFFFFFAD
+Index = 15 : Byte 0x0000000B
+Index = 16 : Byte 0xFFFFFFD1
+Index = 17 : Byte 0xFFFFFFBA
+Index = 18 : Byte 0xFFFFFFAD
+Index = 19 : Byte 0x0000001B
+Index = 20 : Byte 0xFFFFFFD0
+Index = 21 : Byte 0xFFFFFFBA
+Index = 22 : Byte 0xFFFFFFAD
+Index = 23 : Byte 0x0000002B
+Index = 24 : Byte 0xFFFFFFD0
+Index = 25 : Byte 0xFFFFFFBA
+Index = 26 : Byte 0xFFFFFFD0
+Index = 27 : Byte 0xFFFFFFBA
+Index = 28 : Byte 0x00000033
+Index = 29 : Byte 0x00000067
+Index = 30 : Byte 0xFFFFFFE6
+Index = 31 : Byte 0xFFFFFFFE
+
+Print the words-----------------
+@index = 0 :  word = 0x0BADBAD0
+@index = 4 :  word = 0x1BADBAD2
+@index = 8 :  word = 0x2BADBAD0
+@index = 12 :  word = 0x0BADBAD0
+@index = 16 :  word = 0x1BADBAD1
+@index = 20 :  word = 0x2BADBAD0
+@index = 24 :  word = 0xBAD0BAD0
+@index = 28 :  word = 0xFEE66733
+
+Print lower half of the words with no sign extension-----------------
+@index = 0 :  word = 0x0000BAD0
+@index = 4 :  word = 0x0000BAD2
+@index = 8 :  word = 0x0000BAD0
+@index = 12 :  word = 0x0000BAD0
+@index = 16 :  word = 0x0000BAD1
+@index = 20 :  word = 0x0000BAD0
+@index = 24 :  word = 0x0000BAD0
+@index = 28 :  word = 0x00006733
+
+Print lower half of the words with sign extension-----------------
+@index = 0 :  word = 0xFFFFBAD0
+@index = 4 :  word = 0xFFFFBAD2
+@index = 8 :  word = 0xFFFFBAD0
+@index = 12 :  word = 0xFFFFBAD0
+@index = 16 :  word = 0xFFFFBAD1
+@index = 20 :  word = 0xFFFFBAD0
+@index = 24 :  word = 0xFFFFBAD0
+@index = 28 :  word = 0x00006733
+Print upper half of the words with no sign extension-----------------
+@index = 0 :  word = 0x00000BAD
+@index = 4 :  word = 0x00001BAD
+@index = 8 :  word = 0x00002BAD
+@index = 12 :  word = 0x00000BAD
+@index = 16 :  word = 0x00001BAD
+@index = 20 :  word = 0x00002BAD
+@index = 24 :  word = 0x0000BAD0
+@index = 28 :  word = 0x0000FEE6
+
+Print upper half of the words with sign extension-----------------
+@index = 0 :  word = 0x00000BAD
+@index = 4 :  word = 0x00001BAD
+@index = 8 :  word = 0x00002BAD
+@index = 12 :  word = 0x00000BAD
+@index = 16 :  word = 0x00001BAD
+@index = 20 :  word = 0x00002BAD
+@index = 24 :  word = 0xFFFFBAD0
+@index = 28 :  word = 0xFFFFFEE6
+
+Print the words-----------------
+@index = 0 :  word = 0x0BADBAD0
+@index = 4 :  word = 0x1BADBAD2
+@index = 8 :  word = 0x2BADBAD0
+@index = 12 :  word = 0x0BADBAD0
+@index = 16 :  word = 0x1BADBAD1
+@index = 20 :  word = 0x2BADBAD0
+@index = 24 :  word = 0xBAD0BAD0
+@index = 28 :  word = 0xFEE66733
+
+Write 0x1234ABCD to index 0
+Write 0xFEDCBA33 to index 16
+
+Write 0xXXXXBEEF to index 4
+
+Write 0xXXXXFFXX to index 8 + 1
+Write 0xEEXXXXXX to index 8 + 3
+
+Print the words-----------------
+@index = 0 :  word = 0x0BADBAD0
+@index = 4 :  word = 0x1BADBAD2
+@index = 8 :  word = 0x2BADBAD0
+@index = 12 :  word = 0x0BADBAD0
+@index = 16 :  word = 0x1BADBAD1
+@index = 20 :  word = 0x2BADBAD0
+@index = 24 :  word = 0xBAD0BAD0
+@index = 28 :  word = 0xFEE66733
+
+Load 0xDEAD1234 in reg x00 and print the register contents-----------------
+REG x00 = 0xDEAD1234 = 11011110101011010001001000110100
