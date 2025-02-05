@@ -17,4 +17,4 @@ parse_test: tests/parse_test.o modules/memory.o modules/risc_sim.o
 	gcc -Wall -Wextra -g tests/parse_test.o modules/memory.o modules/risc_sim.o -o parse_test
 
 clean:
-	rm -f app parse_test main.o tests/parse_test.o modules/memory.o modules/risc_sim.o
+	rm -f app parse_test main.o tests/parse_test.o modules/memory.o modules/risc_sim.o *.o *.swp
