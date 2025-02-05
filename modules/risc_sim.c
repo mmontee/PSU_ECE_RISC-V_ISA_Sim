@@ -98,7 +98,9 @@ memory_t parse_input(input_params_t *input)
                         int index = 0;
                         // the characters from 0 to count shoud be the address
                         memcpy(addressString, &line[0], count);
+			// the address from the inputfile is the baseAddress
                         uint32_t baseAddress = (int)strtol(addressString, NULL, 16);
+			// Check address for alignment
                         if(baseAddress % 4 != 0)
                         {
                                 printf("un-aligned reference. Address : 0x%08X\n", baseAddress);
