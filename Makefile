@@ -8,7 +8,7 @@ MODULES_DIR = modules
 TESTS_DIR = tests
 
 # Module objects (generic)
-MODULE_OBJS = $(MODULES_DIR)/memory.o $(MODULES_DIR)/risc_sim.o  # Add other module objects as needed
+MODULE_OBJS = $(MODULES_DIR)/memory.o $(MODULES_DIR)/risc_sim.o $(MODULES_DIR)/decode.o # Add other module objects as needed
 
 # Executables and their specific objects
 MAIN_EXE = main
@@ -22,10 +22,10 @@ ALL_OBJS = $(MAIN_OBJS) $(TEST_OBJS)
 
 # Rules (with explicit dependencies)
 
-$(SRC_DIR)/main.o: $(SRC_DIR)/main.c $(MODULES_DIR)/risc_sim.h $(MODULES_DIR)/memory.h # Add other headers if needed
+$(SRC_DIR)/main.o: $(SRC_DIR)/main.c $(MODULES_DIR)/risc_sim.h $(MODULES_DIR)/memory.h $(MODULES_DIR)/decode.h # Add other headers if needed
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TESTS_DIR)/parse_test.o: $(TESTS_DIR)/parse_test.c $(MODULES_DIR)/risc_sim.h $(MODULES_DIR)/memory.h # Add other headers if needed
+$(TESTS_DIR)/parse_test.o: $(TESTS_DIR)/parse_test.c $(MODULES_DIR)/risc_sim.h $(MODULES_DIR)/memory.h $(MODULES_DIR)/decode.h  # Add other headers if needed
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(MODULES_DIR)/memory.o: $(MODULES_DIR)/memory.c $(MODULES_DIR)/memory.h
@@ -33,6 +33,8 @@ $(MODULES_DIR)/memory.o: $(MODULES_DIR)/memory.c $(MODULES_DIR)/memory.h
 
 $(MODULES_DIR)/risc_sim.o: $(MODULES_DIR)/risc_sim.c $(MODULES_DIR)/risc_sim.h
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$$(MODULES_DIR)/decode.o: $(MODULES_DIR)/decode.c $(MODULES_DIR)/decode.h
 
 $(TEST_EXE): $(TEST_OBJS)
 	$(CC) $(CFLAGS) $(TEST_OBJS) -o $(TEST_EXE)

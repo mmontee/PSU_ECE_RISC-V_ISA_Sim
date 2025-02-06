@@ -4,6 +4,7 @@
 #include <string.h>
 #include "./modules/risc_sim.h"
 #include "./modules/memory.h"
+#include "./modules/decode.h"
 
 uint32_t registers[32];
 uint32_t programCounter = 0;
@@ -22,8 +23,9 @@ int main(int argc, char *argv[])
 		// fetch the current instruction
 		uint32_t currentInstruction = read_word(programCounter, programMemory);
 		printf("Current Instruction = 0x%08X\n", currentInstruction);
-		// Decode current instruction
 
+		// Decode current instruction
+		 decode_instruction(currentInstruction); 
 		// Exicute current instruction
 
 		// Will need to jump over this is a new PC in created by instruction
