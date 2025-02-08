@@ -3,7 +3,9 @@
 #include <stdint.h>
 #include <string.h>
 #include "./modules/risc_sim.h"
-#include "./modules/memory.h"
+#include "./modules/decode.h"
+//#include "./modules/load_store.h"
+
 
 uint32_t registers[32];
 uint32_t programCounter = 0;

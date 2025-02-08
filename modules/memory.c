@@ -55,7 +55,7 @@ uint32_t read_byte(uint32_t address, int sign_extend, memory_t programMemory)
 
 
 // stores LSB or value at the given address
-void store_byte(uint32_t address, uint32_t value,memory_t programMemory)
+void write_byte(uint32_t address, uint32_t value,memory_t programMemory)
 {
 	programMemory.array[programMemory.startAddress + address] &= 0xFFFFFF00;
 	programMemory.array[programMemory.startAddress + address] |= value;
@@ -82,7 +82,7 @@ uint32_t read_upper_half(uint32_t address, int sign_extend, memory_t programMemo
 }
 
 // Store lower 16 bits of value at address
-void store_half_word(uint32_t address, uint32_t value, memory_t programMemory)
+void write_half_word(uint32_t address, uint32_t value, memory_t programMemory)
 {
 	if((address % 4) != 0)
 	{
