@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	{
 		// fetch the current instruction
 		uint32_t currentInstruction = read_word(programCounter, programMemory);
-		printf("Current Instruction = 0x%08X\n", currentInstruction);
+		printf("Address = 0x%08X Instruction = 0x%08X\n", programCounter, currentInstruction);
 		// Decode current instruction
 
 		// Exicute current instruction

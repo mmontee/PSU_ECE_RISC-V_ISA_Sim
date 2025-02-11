@@ -91,14 +91,14 @@ int main(int argc, char *argv[])
 
 	// Modify some half words
 	printf("Write 0xXXXXBEEF to index 4\n");
-	store_half_word(0, 0x1234ABCD, programMemory);
+	write_half_word(0, 0x1234ABCD, programMemory);
 	printf("\n");
 
 	// Modify some half words
 	printf("Write 0xXXXXFFXX to index 8 + 1\n");
-	store_byte(8 + 1, 0xFF, programMemory);
+	write_byte(8 + 1, 0xFF, programMemory);
 	printf("Write 0xEEXXXXXX to index 8 + 3\n");
-	store_byte(8 + 3, 0xEE, programMemory);
+	write_byte(8 + 3, 0xEE, programMemory);
 	printf("\n");
 
 	// Print the words again
