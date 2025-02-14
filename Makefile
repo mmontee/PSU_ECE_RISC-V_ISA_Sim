@@ -10,15 +10,19 @@ TESTS_DIR = tests
 
 #Headers  -- Add headers as needed
 HEADERS = 	$(MODULES_DIR)/risc_sim.h \
-			$(MODULES_DIR)/memory.h \
-			$(MODULES_DIR)/decode.h \
-			$(MODULES_DIR)/load_store.h
+		$(MODULES_DIR)/memory.h \
+		$(MODULES_DIR)/decode.h \
+		$(MODULES_DIR)/load_store.h \
+		$(MODULES_DIR)/execute.h  \
+		$(MODULES_DIR)/instructions.h 
 
 # Module objects -- Add module objects as needed
 MODULE_OBJS = 	$(MODULES_DIR)/memory.o \
-				$(MODULES_DIR)/risc_sim.o \
-				$(MODULES_DIR)/decode.o \
-				$(MODULES_DIR)/load_store.o 
+		$(MODULES_DIR)/risc_sim.o \
+		$(MODULES_DIR)/decode.o \
+		$(MODULES_DIR)/load_store.o \
+		$(MODULES_DIR)/execute.o \
+		$(MODULES_DIR)/instructions.o 
 				
 				
 
@@ -55,6 +59,11 @@ $$(MODULES_DIR)/decode.o: $(MODULES_DIR)/decode.c $(HEADERS)
 $$(MODULES_DIR)/load_store.o: $(MODULES_DIR)/load_store.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$$(MODULES_DIR)/execute.o: $(MODULES_DIR)/execute.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+	
+$$(MODULES_DIR)/instructions.o: $(MODULES_DIR)/instructions.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 	# Exicutable make cmds
 $(TEST_EXE): $(TEST_OBJS)
