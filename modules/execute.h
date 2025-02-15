@@ -7,8 +7,19 @@ Functions related to reading and writing from memory
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include "../modules/types.h"
 #include "../modules/instructions.h"
 
-uint32_t execute_r_type(decoded_instr_t instruction, uint32_t registers[]);
+uint32_t execute_r_type(decoded_instr_t instruction, hardware_t hrdwr);
+
+uint32_t execute_i_type(decoded_instr_t instruction, hardware_t hrdwr);
+
+uint32_t execute_s_type(decoded_instr_t instruction, hardware_t hrdwr);
+
+uint32_t execute_b_type(decoded_instr_t instruction, hardware_t hrdwr);
+
+uint32_t execute_u_type(decoded_instr_t instruction, hardware_t hrdwr);
+
+uint32_t execute_j_type(decoded_instr_t instruction, hardware_t hrdwr);
 
 #endif
