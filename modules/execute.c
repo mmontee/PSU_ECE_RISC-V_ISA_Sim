@@ -18,6 +18,7 @@ uint32_t execute_r_type(decoded_instr_t instruction, hardware_t hrdwr)
             add(instruction, hrdwr.registers);
             break;
         case 0x2:// sub
+            sub(instruction, hrdwr.registers);
             break;
         default:
             printf("Unknown func7 code in R-type\n");
@@ -26,19 +27,25 @@ uint32_t execute_r_type(decoded_instr_t instruction, hardware_t hrdwr)
         }
         break;
     case 0x1:// sll
+        sll(instruction, hrdwr.registers);
         break;
     case 0x2:// slt
+        slt(instruction, hrdwr.registers);
         break;
     case 0x3:// sltu
+        sltu(instruction, hrdwr.registers);
         break;
     case 0x4:// xor
+        xor_r(instruction, hrdwr.registers);
         break;
     case 0x5:
         switch(instruction.funct7)
         {
         case 0x0:// srl
+            srl(instruction,hrdwr.registers);
             break;
         case 0x2:// sra
+            sra(instruction, hrdwr.registers);
             break;
         default:
             printf("Unknown func7 code in R-type\n");
@@ -47,8 +54,10 @@ uint32_t execute_r_type(decoded_instr_t instruction, hardware_t hrdwr)
         }
         break;
     case 0x6:// or
+        or_r(instruction, hrdwr.registers);
         break;
     case 0x7:// and
+        and_r(instruction, hrdwr.registers);
         break;
     default:
         printf("Unknown func3 code in R-type\n");
