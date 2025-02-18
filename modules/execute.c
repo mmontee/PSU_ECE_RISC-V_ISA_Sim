@@ -219,8 +219,10 @@ uint32_t execute_u_type(decoded_instr_t instruction, hardware_t hrdwr)
     switch(instruction.opcode)
     {
         case 0x37:// lui
+            lui(instruction, hrdwr.registers);
             break;
         case 0x17:// auipc
+            auipc(instruction, hrdwr.registers);
             break;                     
         default:
             printf("Unknown opcode code in U-type\n");
