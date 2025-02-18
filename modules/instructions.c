@@ -94,3 +94,71 @@ void and_r(decoded_instr_t instruction, uint32_t registers[])
         printf("Executing AND: rd = %d\n", registers[instruction.rd]);
     #endif
 }
+
+
+//I-Type Instructions
+void addi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 + imm
+{
+        registers[instruction.rd] = registers[instruction.rs1] + instruction.imm;
+        printf("Executed ADDI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void slti(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?1:0
+{
+        registers[instruction.rd] = (registers[instruction.rs1] < instruction.imm) ? 1 : 0;
+        printf("Executed SLTI: rd=%u, rs1=%u, imm=%d\n", instructoin.rd, instruction.rs1, instruction.imm);
+}
+
+void sltiu(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?1:0 zero extends
+{
+        registers[instruction.rd] = (registers[instruction.rs1] < (uint32_t)instruction.imm ? 1 : 0;
+        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%u\n", instruction.rd, instruction.rs1, (uint32_t)instruction.imm);
+}
+
+void xori(decoded_instr_i instruction, uint32_t registers[]) //rd = rs1 ^ imm
+{
+        registers[instruction.rd] = registers[instruction.rs1] ^ instruction.imm;
+        printf("Executed XORI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void ori(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 | imm
+{
+        registers[instruction.rd] = registers[instruction.rs1] | instruction.imm;
+        printf("Executed ORI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void andi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 & imm
+{
+        registers[instruction.rd] = registers[instruction.rs1] & instruction.imm;
+        printf("Executed ANDI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void slli(decoded_instr_t instruction, uint32_t registers[])
+{
+        registers[instruction.rd] = registers[instruction.rs1] << (instruction.imm & 0x1F);
+        printf("Executed SLLI: rd=%u, rs1=%u, imm%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void srli(decoded_instr_t instruction, uint32_t registers[])
+{
+        registers[instruction.rd] = registers[instruction.rs1] >> (instruction.imm & 0x1F);
+        printf("Executed SRLI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void srai(decoded_instr_t instruction, uint32_t registers[])
+{
+        registers[instruction.rd] = (int32_t)registers[instruction.rs1] >> (instruction.imm & 0x1F);
+        printf("Executed SRAI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+}
+
+void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
+{
+        registers[instruction.rd] = instruction.imm << 12;
+        printf("Executed LUI: rd=%u, imm=0x%08x\n", instruction.rd, instruction.imm);
+}
+
+void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter) //rd = PC + (imm << 12)
+{
+        registers[instruction.rd] = programCounter + (instruction.imm << 12);
+        printf("Executed AUIPC: rd=%u, imm=0x%08x, programCounter=0x%08\n", instruction.rd, instruction.imm, programCounter);
+}
