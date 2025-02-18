@@ -169,6 +169,46 @@ void srai(decoded_instr_t instruction, uint32_t registers[])
         #endif
 }
 
+void lb(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+    uint32_t address = registers[instruction.rs1] + instruction.imm;
+    registers[instruction.rd] = (int8_t)memory[address];  // Sign-extended
+    #ifdef DEBUG
+        printf("Executed LB: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, (int8_t)memory[address]);
+    #endif
+}
+
+void lh(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+    uint32_t address = registers[instruction.rs1] + instruction.imm;
+    registers[instruction.rd] = (int16_t)(memory[address] | (memory[address + 1] << 8));  // Sign-extended
+    #ifdef DEBUG
+        printf("Executed LH: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, (int16_t)(memory[address] | (memory[address + 1] << 8)));
+    #endif
+}
+
+void lw(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+    uint32_t address = registers[instruction.rs1] + instruction.imm;
+    registers[instruction.rd] = (memory[address] | (memory[address + 1] << 8) | (memory[address + 2] << 16) | (memory[address + 3] << 24)); // Word load
+    #ifdef DEBUG
+        printf("Executed LW: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
+    #endif
+}
+
+void lbu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+    uint32_t address = registers[instruction.rs1] + instruction.imm;
+    registers[instruction.rd] = memory[address];  // Zero-extended
+    #ifdef DEBUG
+        printf("Executed LBU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, memory[address]);
+    #endif
+}
+
+void lhu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+    uint32_t address = registers[instruction.rs1] + instruction.imm;
+    registers[instruction.rd] = (memory[address] | (memory[address + 1] << 8));  // Zero-extended
+    #ifdef DEBUG
+        printf("Executed LHU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
+    #endif
+}
+
 
 //U-Type Instructions
 void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
