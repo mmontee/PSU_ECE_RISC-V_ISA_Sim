@@ -25,7 +25,14 @@ void andi(decoded_instr_t instruction, uint32_t registers[]);
 void slli(decoded_instr_t instruction, uint32_t registers[]);
 void srli(decoded_instr_t instruction, uint32_t registers[]);
 void srai(decoded_instr_t instruction, uint32_t registers[]);
+void lb(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
+void lh(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
+void lw(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
+void lbu(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
+void lhu(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
+
 void lui(decoded_instr_t instruction, uint32_t registers[]);
 void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+
 
 #endif
