@@ -169,6 +169,8 @@ void srai(decoded_instr_t instruction, uint32_t registers[])
         #endif
 }
 
+
+//U-Type Instructions
 void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
 {
         registers[instruction.rd] = instruction.imm << 12;
