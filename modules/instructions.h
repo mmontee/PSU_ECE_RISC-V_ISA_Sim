@@ -15,4 +15,17 @@ void srl(decoded_instr_t instruction, uint32_t registers[]);
 void sra(decoded_instr_t instruction, uint32_t registers[]);
 void or_r(decoded_instr_t instruction, uint32_t registers[]);
 void and_r(decoded_instr_t instruction, uint32_t registers[]);
+
+void addi(decoded_instr_t instruction, uint32_t registers[]);
+void slti(decoded_instr_t instruction, uint32_t registers[]);
+void sltiu(decoded_instr_t instruction, uint32_t registers[]);
+void xori(decoded_instr_t instruction, uint32_t registers[]);
+void ori(decoded_instr_t instruction, uint32_t registers[]);
+void andi(decoded_instr_t instruction, uint32_t registers[]);
+void slli(decoded_instr_t instruction, uint32_t registers[]);
+void srli(decoded_instr_t instruction, uint32_t registers[]);
+void srai(decoded_instr_t instruction, uint32_t registers[]);
+void lui(decoded_instr_t instruction, uint32_t registers[]);
+void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+
 #endif
