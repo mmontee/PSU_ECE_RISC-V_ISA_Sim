@@ -78,14 +78,24 @@ uint32_t execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
             switch(instruction.funct3)// select from alu ops
             {
                 case 0x0:// addi
+                    addi(instruction, hrdwr.registers);
+                    printf("Executed ADDI Instruction\n");
                     break;
                 case 0x1:// slli
+                    slli(instruction, hrdwr.registers);
+                    printf("Executed SLLI Instruction\n");
                     break;
                 case 0x2:// slti
+                    slti(instruction, hrdwr.registers);
+                    printf("Executed SLTI Instruction\n");
                     break;
                 case 0x3:// sltiu
+                    sltiu(instruction, hrdwr.registers);
+                    printf("Executed SLTIU Instruction\n");
                     break;
                 case 0x4:// xori
+                    xori(instruction, hrdwr.registers);
+                    printf("Executed XORI Instruction\n");
                     break;
                 case 0x5:
                     uint32_t bits = 0;
@@ -93,8 +103,12 @@ uint32_t execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
                     switch(bits)// two different shift right
                     {
                     case 0x0:// srli
+                        srli(instruction, hrdwr.registers);
+                        printf("Executed SRLI Instruction\n");
                         break;
                     case 0x2:// srai
+                        srai(instruction, hrdwr.registers);
+                        printf("Executed SRAI Instruction\n");
                         break;
                     default:
                         printf("Unknown funct7 code in I-type. opcode: 0x%X\n", instruction.opcode);
@@ -103,8 +117,12 @@ uint32_t execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
                     }
                     break;
                 case 0x6:// ori
+                    ori(instruction, hrdwr.registers);
+                    printf("Executed ORI Instruction\n");
                     break;
                 case 0x7:// andi
+                    andi(instruction, hrdwr.registers);
+                    printf("Executed ANDI Instruction\n");
                     break;                                     
                 default:
                     printf("Unknown funct3 code in I-type. opcode: 0x%X\n", instruction.opcode);
