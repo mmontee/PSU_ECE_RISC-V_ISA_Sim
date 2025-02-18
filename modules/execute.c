@@ -125,14 +125,18 @@ uint32_t execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
             switch(instruction.funct3)
             {
                 case 0x0:// lb
+                    lb(instruction, hrdwr);
                     break;
                 case 0x1:// lh
+                    lh(instruction, hrdwr);
                     break;
                 case 0x2:// lw
                     break;
                 case 0x4:// lbu
+                    lbu(instruction, hrdwr);
                     break; 
                 case 0x5:// lhu
+                    lhu(instruction, hrdwr);
                     break;                                                                                                  
                 default:
                     printf("Unknown funct3 code in I-type. opcode: 0x%X\n", instruction.opcode);
