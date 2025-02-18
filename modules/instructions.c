@@ -169,7 +169,8 @@ void srai(decoded_instr_t instruction, uint32_t registers[])
         #endif
 }
 
-void lb(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+void lb(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) 
+{
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = (int8_t)memory[address];  // Sign-extended
     #ifdef DEBUG
@@ -177,7 +178,8 @@ void lb(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
     #endif
 }
 
-void lh(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+void lh(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) 
+{
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = (int16_t)(memory[address] | (memory[address + 1] << 8));  // Sign-extended
     #ifdef DEBUG
@@ -185,7 +187,8 @@ void lh(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
     #endif
 }
 
-void lw(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+void lw(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) 
+{
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = (memory[address] | (memory[address + 1] << 8) | (memory[address + 2] << 16) | (memory[address + 3] << 24)); // Word load
     #ifdef DEBUG
@@ -193,7 +196,8 @@ void lw(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
     #endif
 }
 
-void lbu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+void lbu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) 
+{
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = memory[address];  // Zero-extended
     #ifdef DEBUG
@@ -201,7 +205,8 @@ void lbu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
     #endif
 }
 
-void lhu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) {
+void lhu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[]) 
+{
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = (memory[address] | (memory[address + 1] << 8));  // Zero-extended
     #ifdef DEBUG
