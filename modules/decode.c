@@ -4,7 +4,7 @@
 #include "../modules/decode.h"
 
 // Decode function
-void decode_instruction(uint32_t instruction) {
+decoded_instr_t decode_instruction(uint32_t instruction) {
     
     uint32_t opcode = instruction & 0x7F;  // last 7 bits r opcode
     decoded_instr_t decoded = {0};
@@ -82,6 +82,8 @@ void decode_instruction(uint32_t instruction) {
             printf("Invalid opcode: 0x%02x\n", opcode);
             break;
     }
+
+    return decoded;
 }       
 
 
