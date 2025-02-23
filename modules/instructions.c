@@ -231,3 +231,59 @@ void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCo
             printf("Executed AUIPC: rd=%u, imm=0x%08x, programCounter=0x%08\n", instruction.rd, instruction.imm, programCounter);
         #endif
 }
+
+// use opcode in decoded struct value 0x63 to enter this function 
+void btype(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter, uint32_t target_address)
+{
+    int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
+    int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
+    int32_t targetAddress; //  target adress
+    
+    
+    targetAddress = programCounter + (instruction.imm << 1); //imm is shifted left by 1
+
+   
+    switch (instruction.funct3) {
+        case 0x0: //beq
+            if (rs1_value == rs2_value) {
+                programCounter = targetAddress;
+            }
+            break;
+        case 0x1: //bne
+            if (rs1_value != rs2_value) {
+                programCounter = targetAddress;
+            }
+            break;
+        case 0x4: //blt
+            if (rs1_value < rs2_value) {
+                programCounter = targetAddress;
+            }
+            break;
+        case 0x5: //bge
+            if (rs1_value >= rs2_value) {
+                programCounter = targetAddress;
+            }
+            break;
+        case 0x8: //bltu
+            if ((uint32_t)rs1_value < (uint32_t)rs2_value) {
+                programCounter = targetAddress;
+            }
+            break;
+        case 0x9: //bgeu
+            if ((uint32_t)rs1_value >= (uint32_t)rs2_value) {
+                programCounter = targetAddress;
+            }
+            break;
+        default:
+            // Invalid 
+            printf("invalid branch");
+            break;
+    }
+
+    #ifdef DEBUG
+        printf("Executed Branch: funct3=0x%01x, rs1_value=%d, rs2_value=%d, targetAddress=0x%08x, programCounter=0x%08x\n",
+               instruction.funct3, rs1_value, rs2_value, targetAddress, programCounter);
+    #endif
+
+
+}
