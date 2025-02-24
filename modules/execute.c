@@ -145,14 +145,16 @@ uint32_t execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
             }
             break;
         case 0x67:// jalr
-        
+            jalr(instruction, hrdwr.registers);
             break;
         case 0x73:
             switch(instruction.imm)// two different shift right
             {
             case 0x0:// ecall
+                ecall();
                 break;
             case 0x1:// ebreak
+                ebreak();
                 break;
             default:
                 printf("Unknown imm code in I-type. opcode: 0x%X\n", instruction.opcode);
