@@ -214,6 +214,26 @@ void lhu(decoded_instr_t instruction, uint32_t registers[], uint8_t memory[])
     #endif
 }
 
+void jalr(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+{
+    uint32_t temp = programCounter + 4;
+    programCounter = (registers[instruction.rs1] + instruction.imm) & ~1;
+    registers[instruction.rd] = temp;
+    #ifdef DEBUG
+        printf("Executed JALR: rd=%u, rs1=%u, imm=%d, newPC=0x%08x\n", instruction.rd, instruction.rs1, instruction.imm, programCounter);
+    #endif
+}
+
+void ebreak()
+{
+    printf("EBREAK instruction executed: Entering debug mode or breaking execution.\n");
+}
+
+void ecall()
+{
+    printf("ECALL instruction executed: System call invoked.\n");
+}
+
 
 //U-Type Instructions
 void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
