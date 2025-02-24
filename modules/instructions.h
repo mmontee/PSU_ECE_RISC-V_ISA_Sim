@@ -30,6 +30,9 @@ void lh(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
 void lw(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
 void lbu(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
 void lhu(decoded_instr_t instruction, uint32_t registers[], memory_t mem);
+void jalr(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+void ebreak();
+void ecall();
 
 void lui(decoded_instr_t instruction, uint32_t registers[]);
 void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
