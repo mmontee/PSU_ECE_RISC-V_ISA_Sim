@@ -3,7 +3,7 @@ Functions related to instructions
 */
 #include "../modules/instructions.h"
 
-//R-type instructions
+//R-type instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 // ADD: rd = rs1 + rs2
 void add(decoded_instr_t instruction, uint32_t registers[])
 {
@@ -96,7 +96,7 @@ void and_r(decoded_instr_t instruction, uint32_t registers[])
 }
 
 
-//I-Type Instructions
+//I-Type Instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 void addi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 + imm
 {
         registers[instruction.rd] = registers[instruction.rs1] + instruction.imm;
@@ -115,13 +115,13 @@ void slti(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?
 
 void sltiu(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?1:0 zero extends
 {
-        registers[instruction.rd] = (registers[instruction.rs1] < (uint32_t)instruction.imm ? 1 : 0;
+        registers[instruction.rd] = (registers[instruction.rs1] < (uint32_t)instruction.imm) ? 1 : 0;
         #ifdef DEBUG
             printf("Executed SLTIU: rd=%u, rs1=%u, imm=%u\n", instruction.rd, instruction.rs1, (uint32_t)instruction.imm);
         #endif
 }
 
-void xori(decoded_instr_i instruction, uint32_t registers[]) //rd = rs1 ^ imm
+void xori(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 ^ imm
 {
         registers[instruction.rd] = registers[instruction.rs1] ^ instruction.imm;
         #ifdef DEBUG
@@ -235,7 +235,7 @@ void ecall()
 }
 
 
-//U-Type Instructions
+//U-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
 void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
 {
         registers[instruction.rd] = instruction.imm << 12;

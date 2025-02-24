@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
         // fetch the current instruction
         uint32_t currentInstruction = read_word(hardware.programCounter, hardware.programMemory);
         
-        decoded_instr_t decodedInstruction;// = decode_instruction(currentInstruction);
+        decoded_instr_t decodedInstruction = decode_instruction(currentInstruction);
         
         switch(decodedInstruction.opcode)
         {

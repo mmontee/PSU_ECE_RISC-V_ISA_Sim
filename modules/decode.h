@@ -4,6 +4,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-void decode_instruction(uint32_t instruction);
+decoded_instr_t decode_instruction(uint32_t instruction);
 
-#endif;
+#endif
