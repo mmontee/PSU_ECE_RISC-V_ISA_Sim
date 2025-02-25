@@ -26,16 +26,16 @@ void slli(decoded_instr_t instruction, uint32_t registers[]);
 void srli(decoded_instr_t instruction, uint32_t registers[]);
 void srai(decoded_instr_t instruction, uint32_t registers[]);
 
-void sb(instruction, hrdwr.registers,  hrdwr.programMemory);
-void sh(instruction, hrdwr.registers,  hrdwr.programMemory);
-void sw(instruction, hrdwr.registers,  hrdwr.programMemory);
+void sb(decoded_instr_t instruction, uint32_t registers[],  memory_t memory);
+void sh(decoded_instr_t instruction, uint32_t registers[],  memory_t memory);
+void sw(decoded_instr_t instruction, uint32_t registers[],  memory_t memory);
 
-void beq(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
-void bne(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
-void blt(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
-void bge(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
-void bltu( instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
-void bgeu( instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+void beq(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+void bne(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+void blt(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+void bge(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+void bltu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
+void bgeu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
 
 void lb(decoded_instr_t instruction, uint32_t registers[], memory_t memory);
 void lh(decoded_instr_t instruction, uint32_t registers[], memory_t memory);
@@ -43,7 +43,7 @@ void lw(decoded_instr_t instruction, uint32_t registers[], memory_t memory);
 void lbu(decoded_instr_t instruction, uint32_t registers[], memory_t memory);
 void lhu(decoded_instr_t instruction, uint32_t registers[], memory_t memory);
 void jalr(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
-void jal(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void jal(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter);
 void ebreak();
 void ecall();
 

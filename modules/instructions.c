@@ -239,23 +239,39 @@ void ecall()
 
 void sb(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
 {
-
+    uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the byte address -note
+    uint32_t value = 0;
+    value = (instruction.rs2 & 0xFF); // I just want store the lower 8 bits
+    write_byte(address, value, memory);
+    #ifdef DEBUG
+        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
+    #endif
 }
 
 void sh(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
 {
-
+    uint32_t address = registers[instruction.rs1] + instruction.imm; 
+    uint32_t value = 0;
+    value = (instruction.rs2 & 0xFFFF); // I just want store the lower 16 bits
+    write_half_word(address, value, memory);
+    #ifdef DEBUG
+        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
+    #endif
 }
 
 void sw(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
 {
-
+    uint32_t address = registers[instruction.rs1] + instruction.imm; 
+    write_word(address, instruction.rs2, memory);
+    #ifdef DEBUG
+        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
+    #endif
 }
 
 
 //B-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
 //Do we need to include the uint32_t registers[] -note
-void beq(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uint32_t programCounter)
+void beq(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
 {
     int32_t targetAddress = programCounter + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
@@ -276,7 +292,7 @@ void beq(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uin
     
 }
 
-void bne(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uint32_t programCounter)
+void bne(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
 {
     int32_t targetAddress = programCounter + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
@@ -298,7 +314,7 @@ void bne(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uin
 }
 
 
-void blt(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uint32_t programCounter)
+void blt(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
 {
     int32_t targetAddress = programCounter + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
@@ -319,7 +335,7 @@ void blt(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uin
 }
 
 
-void bge(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uint32_t programCounter)
+void bge(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
 {
     int32_t targetAddress = programCounter + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
@@ -341,7 +357,7 @@ void bge(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uin
 }
 
 
-void bltu(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uint32_t programCounter)
+void bltu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
 {
     int32_t targetAddress = programCounter + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
@@ -363,7 +379,7 @@ void bltu(decoded_instr_t instruction, uint32_t registers[], memory_t memory, ui
 }
 
 
-void bgeu(decoded_instr_t instruction, uint32_t registers[], memory_t memory, uint32_t programCounter)
+void bgeu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
 {
     int32_t targetAddress = programCounter + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
