@@ -24,7 +24,7 @@ decoded_instr_t decode_instruction(uint32_t instruction) {
 
         case 0x13:  // ALU/Immediate
         case 0x03:
-        case 0x17:
+        case 0x67:
         case 0x73:
             decoded.imm = (int32_t)(instruction >> 20);  // Sign extended 12 bit immediate
             decoded.rs1 = (instruction >> 15) & 0x1F;
@@ -61,7 +61,7 @@ decoded_instr_t decode_instruction(uint32_t instruction) {
             break;
 
         case 0x37:  // immediate
-            
+        case 0x17:
             decoded.imm = (instruction >> 12) & 0xFFFFF;  // extract upper 20-bit immediate
             decoded.rd = (instruction >> 7) & 0x1F;
             #ifdef DEBUG
@@ -79,16 +79,7 @@ decoded_instr_t decode_instruction(uint32_t instruction) {
             #endif
             break;
 
-        case 0x67: //jalr - jump with i-type encoding
-            decoded.imm = (int32_t)(instruction >> 20);  // Sign extended 12 bit immediate
-            decoded.rs1 = (instruction >> 15) & 0x1F;
-            decoded.funct3 = (instruction >> 12) & 0x7;
-            decoded.rd = (instruction >> 7) & 0x1F;
-            #ifdef DEBUG
-                printf("Decoding I-type instruction:\n");
-                printf("imm: 0x%03x, rs1: %u, funct3: 0x%01x, rd: %u\n", decoded.imm, decoded.rs1, decoded.funct3, decoded.rd);
-            #endif
-            break;
+
 
 
         default:

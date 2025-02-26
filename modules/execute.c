@@ -71,7 +71,7 @@ void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr)
 void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
 {
     #ifdef DEBUG
-        printf("Executing I-type instruction.\n");
+        printf("Executing I-type instruction. op = 0x%02X\n", instruction.opcode);
     #endif
     switch(instruction.opcode)// outermost switch collects all possible opcodes
     {
@@ -132,6 +132,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
                     lh(instruction, hrdwr->registers,&hrdwr->programMemory);
                     break;
                 case 0x2:// lw
+                    lw(instruction, hrdwr->registers,&hrdwr->programMemory);
                     break;
                 case 0x4:// lbu
                     lbu(instruction, hrdwr->registers,&hrdwr->programMemory);

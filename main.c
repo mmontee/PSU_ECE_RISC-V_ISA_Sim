@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
                 break;
             case 0x13:// I-type
             case 0x03:// I-type
-            case 0x17:// I-type
+            case 0x67:// I-type
             case 0x73:// I-type
 		          execute_i_type(decodedInstruction, &hardware);
 		          break;
@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
 		          execute_b_type(decodedInstruction, &hardware);
 		          break;
             case 0x37:// U-type
+            case 0x17:
 		          execute_u_type(decodedInstruction, &hardware);
 		          break;
             case 0x6F:// j-type
