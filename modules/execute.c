@@ -18,7 +18,7 @@ void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr)
         case 0x0:// add
             add(instruction, hrdwr->registers);
             break;
-        case 0x2:// sub
+        case 0x20:// sub
             sub(instruction, hrdwr->registers);
             break;
         default:
@@ -45,7 +45,7 @@ void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr)
         case 0x0:// srl
             srl(instruction,hrdwr->registers);
             break;
-        case 0x2:// sra
+        case 0x20:// sra
             sra(instruction, hrdwr->registers);
             break;
         default:
@@ -101,7 +101,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
                     case 0x0:// srli
                         srli(instruction, hrdwr->registers);
                         break;
-                    case 0x2:// srai
+                    case 0x20:// srai
                         srai(instruction, hrdwr->registers);
                         break;
                     default:
