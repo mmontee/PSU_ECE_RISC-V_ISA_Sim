@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         #endif
             
         // fetch the current instruction
-        uint32_t currentInstruction = read_word(hardware.programCounter, hardware.programMemory);
+        uint32_t currentInstruction = read_word(hardware.programCounter, &hardware.programMemory);
         #ifdef DEBUG
             printf("Instruction Code = 0x%08X\n", currentInstruction);
         #endif
@@ -40,25 +40,25 @@ int main(int argc, char *argv[])
         switch(decodedInstruction.opcode)
         {
             case 0x33:// R-type
-                execute_r_type(decodedInstruction, hardware);
+                execute_r_type(decodedInstruction, &hardware);
                 break;
             case 0x13:// I-type
             case 0x03:// I-type
             case 0x17:// I-type
             case 0x73:// I-type
-		          execute_i_type(decodedInstruction, hardware);
+		          execute_i_type(decodedInstruction, &hardware);
 		          break;
             case 0x23:// S-type
-		          execute_s_type(decodedInstruction, hardware);
+		          execute_s_type(decodedInstruction, &hardware);
 		          break;
             case 0x63:// B-type
-		          execute_b_type(decodedInstruction, hardware);
+		          execute_b_type(decodedInstruction, &hardware);
 		          break;
             case 0x37:// U-type
-		          execute_u_type(decodedInstruction, hardware);
+		          execute_u_type(decodedInstruction, &hardware);
 		          break;
             case 0x6F:// j-type
-		          execute_j_type(decodedInstruction, hardware);
+		          execute_j_type(decodedInstruction, &hardware);
 		          break;
             default:
 		          printf("Unknown op-code\n");
@@ -69,8 +69,16 @@ int main(int argc, char *argv[])
         for(int i = 0; i < 32; i++)
         {
             print_bits(i, hardware.registers);
+            
         }
-                 
+        for(int i = 0; i < 32; i++)
+        {
+            printf("memory address 0x%08X = 0x%08X\n", i * 4,read_word(i * 4, &hardware.programMemory));
+            
+            
+        }
+            
+                            
         // Will need to jump over this is a new PC in created by instruction
         hardware.programCounter += 4;
         

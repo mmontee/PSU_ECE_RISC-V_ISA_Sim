@@ -5,7 +5,7 @@ Functions related to instructions
 
 //R-type instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 // ADD: rd = rs1 + rs2
-void add(decoded_instr_t instruction, uint32_t registers[])
+void add(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] + registers[instruction.rs2];
     #ifdef DEBUG
@@ -14,7 +14,7 @@ void add(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // SUB: rd = rs1 - rs2
-void sub(decoded_instr_t instruction, uint32_t registers[])
+void sub(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] - registers[instruction.rs2];
     #ifdef DEBUG
@@ -24,7 +24,7 @@ void sub(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // SLL: rd = rs1 << rs2
-void sll(decoded_instr_t instruction, uint32_t registers[])
+void sll(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] << (registers[instruction.rs2] & 0x1F);
     #ifdef DEBUG
@@ -33,7 +33,7 @@ void sll(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // SLT:  rd = (rs1 < rs2)?1:0
-void slt(decoded_instr_t instruction, uint32_t registers[])
+void slt(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = ((int32_t)registers[instruction.rs1] < (int32_t)registers[instruction.rs2]) ? 1 : 0; //convert rs1 to signed 32 bit int
     #ifdef DEBUG
@@ -42,7 +42,7 @@ void slt(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // SLTU: rd = (rs1 < rs2)?1:0 zero-extends
-void sltu(decoded_instr_t instruction, uint32_t registers[])
+void sltu(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = (registers[instruction.rs1] < registers[instruction.rs2]) ? 1 : 0;
     #ifdef DEBUG
@@ -51,7 +51,7 @@ void sltu(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // XOR: rd = rs1 ^ rs2
-void xor_r(decoded_instr_t instruction, uint32_t registers[])
+void xor_r(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] ^ registers[instruction.rs2];
     #ifdef DEBUG
@@ -60,7 +60,7 @@ void xor_r(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // SRL: rd = rs1 >> rs2 
-void srl(decoded_instr_t instruction, uint32_t registers[])
+void srl(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] >> (registers[instruction.rs2] & 0x1F);
     #ifdef DEBUG
@@ -69,7 +69,7 @@ void srl(decoded_instr_t instruction, uint32_t registers[])
 }
 
 //  SRA: rd = rs1 >> rs2 msb-extends
-void sra(decoded_instr_t instruction, uint32_t registers[])
+void sra(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = ((int32_t)registers[instruction.rs1]) >> (registers[instruction.rs2] & 0x1F); //convert rs1 to signed 32 bit int
     #ifdef DEBUG
@@ -78,7 +78,7 @@ void sra(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // OR: rd = rs1 | rs2
-void or_r(decoded_instr_t instruction, uint32_t registers[])
+void or_r(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] | registers[instruction.rs2];
     #ifdef DEBUG
@@ -87,7 +87,7 @@ void or_r(decoded_instr_t instruction, uint32_t registers[])
 }
 
 // AND : rd = rs1 & rs2
-void and_r(decoded_instr_t instruction, uint32_t registers[])
+void and_r(decoded_instr_t instruction, uint32_t *registers)
 {
     registers[instruction.rd] = registers[instruction.rs1] & registers[instruction.rs2];
     #ifdef DEBUG
@@ -97,15 +97,15 @@ void and_r(decoded_instr_t instruction, uint32_t registers[])
 
 
 //I-Type Instructions -----------------------------------------------------------------------------------------------------------------------------------------------
-void addi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 + imm
+void addi(decoded_instr_t instruction, uint32_t *registers) //rd = rs1 + imm
 {
         registers[instruction.rd] = registers[instruction.rs1] + instruction.imm;
         #ifdef DEBUG
-            printf("Executed ADDI: rd=%u, rs1=%u, imm=%d, Result=%d\n", instruction.rd, instruction.rs1, instruction.imm, registers[instruction.rd]);
+            printf("Executed ADDI: rd=%u, rs1=%u, imm=%u, Result=%u\n", instruction.rd, instruction.rs1, instruction.imm, registers[instruction.rd]);
         #endif
 }
 
-void slti(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?1:0
+void slti(decoded_instr_t instruction, uint32_t *registers) //rd = (rs1 < imm)?1:0
 {
         registers[instruction.rd] = (registers[instruction.rs1] < instruction.imm) ? 1 : 0;
         #ifdef DEBUG
@@ -113,7 +113,7 @@ void slti(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?
         #endif
 }
 
-void sltiu(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?1:0 zero extends
+void sltiu(decoded_instr_t instruction, uint32_t *registers) //rd = (rs1 < imm)?1:0 zero extends
 {
         registers[instruction.rd] = (registers[instruction.rs1] < (uint32_t)instruction.imm) ? 1 : 0;
         #ifdef DEBUG
@@ -121,7 +121,7 @@ void sltiu(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)
         #endif
 }
 
-void xori(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 ^ imm
+void xori(decoded_instr_t instruction, uint32_t *registers) //rd = rs1 ^ imm
 {
         registers[instruction.rd] = registers[instruction.rs1] ^ instruction.imm;
         #ifdef DEBUG
@@ -129,7 +129,7 @@ void xori(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 ^ imm
         #endif
 }
 
-void ori(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 | imm
+void ori(decoded_instr_t instruction, uint32_t *registers) //rd = rs1 | imm
 {
         registers[instruction.rd] = registers[instruction.rs1] | instruction.imm;
         #ifdef DEBUG
@@ -137,7 +137,7 @@ void ori(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 | imm
         #endif
 }
 
-void andi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 & imm
+void andi(decoded_instr_t instruction, uint32_t *registers) //rd = rs1 & imm
 {
         registers[instruction.rd] = registers[instruction.rs1] & instruction.imm;
         #ifdef DEBUG
@@ -145,7 +145,7 @@ void andi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 & imm
         #endif
 }
 
-void slli(decoded_instr_t instruction, uint32_t registers[])
+void slli(decoded_instr_t instruction, uint32_t *registers)
 {
         registers[instruction.rd] = registers[instruction.rs1] << (instruction.imm & 0x1F);
         #ifdef DEBUG
@@ -153,7 +153,7 @@ void slli(decoded_instr_t instruction, uint32_t registers[])
         #endif
 }
 
-void srli(decoded_instr_t instruction, uint32_t registers[])
+void srli(decoded_instr_t instruction, uint32_t *registers)
 {
         registers[instruction.rd] = registers[instruction.rs1] >> (instruction.imm & 0x1F);
         #ifdef DEBUG
@@ -161,7 +161,7 @@ void srli(decoded_instr_t instruction, uint32_t registers[])
         #endif
 }
 
-void srai(decoded_instr_t instruction, uint32_t registers[])
+void srai(decoded_instr_t instruction, uint32_t *registers)
 {
         registers[instruction.rd] = (int32_t)registers[instruction.rs1] >> (instruction.imm & 0x1F);
         #ifdef DEBUG
@@ -169,7 +169,7 @@ void srai(decoded_instr_t instruction, uint32_t registers[])
         #endif
 }
 
-void lb(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
+void lb(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the byte address -note
     registers[instruction.rd] = read_byte(address, 1, memory);  // Sign-extended
@@ -178,7 +178,7 @@ void lb(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     #endif
 }
 
-void lh(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
+void lh(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the word address -note
     registers[instruction.rd] = read_half(address, 1, memory);  // Sign-extended
@@ -188,7 +188,7 @@ void lh(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     #endif
 }
 
-void lw(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
+void lw(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = read_word(address, memory);
@@ -197,7 +197,7 @@ void lw(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     #endif
 }
 
-void lbu(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
+void lbu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = read_byte(address, 0, memory);  // Zero-extended
@@ -206,7 +206,7 @@ void lbu(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     #endif
 }
 
-void lhu(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
+void lhu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = read_half(address, 0, memory);  // Zero-extended
@@ -215,13 +215,13 @@ void lhu(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     #endif
 }
 
-void jalr(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void jalr(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    uint32_t temp = programCounter + 4;
-    programCounter = (registers[instruction.rs1] + instruction.imm) & ~1;
+    uint32_t temp = *(programCounter) + 4;
+    *(programCounter) = (registers[instruction.rs1] + instruction.imm) & ~1;
     registers[instruction.rd] = temp;
     #ifdef DEBUG
-        printf("Executed JALR: rd=%u, rs1=%u, imm=%d, newPC=0x%08x\n", instruction.rd, instruction.rs1, instruction.imm, programCounter);
+        printf("Executed JALR: rd=%u, rs1=%u, imm=%d, newPC=0x%08x\n", instruction.rd, instruction.rs1, instruction.imm, *(programCounter));
     #endif
 }
 
@@ -237,48 +237,51 @@ void ecall()
 
 //S-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
 
-void sb(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
+void sb(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the byte address -note
     uint32_t value = 0;
-    value = (instruction.rs2 & 0xFF); // Store the lower 8 bits
-    write_byte(address, value, memory);
+    value = (registers[instruction.rs2] & 0xFF); // Store the lower 8 bits
+    
     #ifdef DEBUG
-        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
+        printf("Executed SB: rs1=%u, rs2=%u=0x%08x, value=%u\n", instruction.rs1, instruction.rs2, address, value);
     #endif
+    write_byte(address, value, memory);
 }
 
-void sh(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
+void sh(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; 
     uint32_t value = 0;
-    value = (instruction.rs2 & 0xFFFF); // Store the lower 16 bits
-    write_half_word(address, value, memory);
+    value = (registers[instruction.rs2] & 0x0000FFFF); // Store the lower 16 bits
+    
     #ifdef DEBUG
-        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
+        printf("Executed SH:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction.rs1, instruction.rs2, address, value);
     #endif
+    write_half_word(address, value, memory);
 }
 
-void sw(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
+void sw(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; 
-    write_word(address, instruction.rs2, memory);
+    
     #ifdef DEBUG
-        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, instruction.rs2);
+        printf("Executed SW:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction.rs1, instruction.rs2, address, instruction.rs2);
     #endif
+    write_word(address, registers[instruction.rs2], memory);
 }
 
 
 //B-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
-//Do we need to include the uint32_t registers[] -note
-void beq(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+//Do we need to include the uint32_t *registers -note
+void beq(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = programCounter + (instruction.imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
     if (rs1_value == rs2_value) 
     {
-        programCounter = targetAddress;
+        *(programCounter)  = targetAddress;
         #ifdef DEBUG
             printf("Executed BEQ - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
@@ -292,14 +295,14 @@ void beq(decoded_instr_t instruction, uint32_t registers[], uint32_t programCoun
     
 }
 
-void bne(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void bne(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = programCounter + (instruction.imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
     if (rs1_value != rs2_value) 
     {
-        programCounter = targetAddress;
+        *(programCounter)  = targetAddress;
         #ifdef DEBUG
             printf("Executed BNE - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
@@ -314,14 +317,14 @@ void bne(decoded_instr_t instruction, uint32_t registers[], uint32_t programCoun
 }
 
 
-void blt(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void blt(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = programCounter + (instruction.imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
     if (rs1_value < rs2_value) 
     {
-        programCounter = targetAddress;
+        *(programCounter)  = targetAddress;
         #ifdef DEBUG
             printf("Executed BLT - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
@@ -335,14 +338,14 @@ void blt(decoded_instr_t instruction, uint32_t registers[], uint32_t programCoun
 }
 
 
-void bge(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void bge(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = programCounter + (instruction.imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
     if (rs1_value >= rs2_value) 
     {
-        programCounter = targetAddress;
+        *(programCounter)  = targetAddress;
         #ifdef DEBUG
             printf("Executed BGE - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
@@ -357,14 +360,14 @@ void bge(decoded_instr_t instruction, uint32_t registers[], uint32_t programCoun
 }
 
 
-void bltu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void bltu(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = programCounter + (instruction.imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
     if ((uint32_t)rs1_value < (uint32_t)rs2_value) 
     {
-        programCounter = targetAddress;
+        *(programCounter)  = targetAddress;
         #ifdef DEBUG
             printf("Executed BLTU - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
@@ -379,14 +382,14 @@ void bltu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCou
 }
 
 
-void bgeu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void bgeu(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = programCounter + (instruction.imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction.imm << 1);
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
     if ((uint32_t)rs1_value >= (uint32_t)rs2_value) 
     {
-        programCounter = targetAddress;
+        *(programCounter)  = targetAddress;
         #ifdef DEBUG
             printf("Executed BGEU - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
@@ -403,7 +406,7 @@ void bgeu(decoded_instr_t instruction, uint32_t registers[], uint32_t programCou
 /*
 
 // use opcode in decoded struct value 0x63 to enter this function 
-void btype(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter, uint32_t target_address)
+void btype(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter, uint32_t target_address)
 {
     int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
@@ -460,7 +463,7 @@ void btype(decoded_instr_t instruction, uint32_t registers[], uint32_t programCo
 */
 
 //U-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
-void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
+void lui(decoded_instr_t instruction, uint32_t *registers) //rd = imm << 12
 {
         registers[instruction.rd] = instruction.imm << 12;
         #ifdef DEBUG
@@ -468,11 +471,11 @@ void lui(decoded_instr_t instruction, uint32_t registers[]) //rd = imm << 12
         #endif
 }
 
-void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter) //rd = PC + (imm << 12)
+void auipc(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter) //rd = PC + (imm << 12)
 {
-        registers[instruction.rd] = programCounter + (instruction.imm << 12);
+        registers[instruction.rd] = *(programCounter) + (instruction.imm << 12);
         #ifdef DEBUG
-            printf("Executed AUIPC: rd=%u, imm=0x%08x, programCounter=0x%08\n", instruction.rd, instruction.imm, programCounter);
+            printf("Executed AUIPC: rd=%u, imm=0x%08x, programCounter=0x%08X\n", instruction.rd, instruction.imm, *(programCounter));
         #endif
 }
 
@@ -480,16 +483,16 @@ void auipc(decoded_instr_t instruction, uint32_t registers[], uint32_t programCo
 
 //J-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
 
-void jal(decoded_instr_t instruction, uint32_t registers[], uint32_t programCounter)
+void jal(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    uint32_t return_address = programCounter + 4; // Address after current instruction
-    programCounter = programCounter + instruction.imm; // Jump to target address
+    uint32_t return_address = *(programCounter) + 4; // Address after current instruction
+    *(programCounter) = *(programCounter) + instruction.imm; // Jump to target address
     if (instruction.rd != 0) 
     { // Avoid writing to x0
         registers[instruction.rd] = return_address;
     }
     #ifdef DEBUG
-        printf("Executed JAL: rd=%u, imm=0x%08x, Targetaddress(PC) =0x%08x\n", return_address, programCounter);
+        printf("Executed JAL: rd=%u, imm=0x%08x, Targetaddress(PC) =0x%08x\n", return_address, instruction.imm, *(programCounter));
     #endif
     
 }
@@ -498,7 +501,7 @@ void jal(decoded_instr_t instruction, uint32_t registers[], uint32_t programCoun
 /*
 
 extern uint32_t registers[32]; 
-extern uint32_t programCounter; 
+extern uint32_t *programCounter; 
 
 void execute_jump(decoded_instr_t decoded) {
     switch (decoded.opcode) {
