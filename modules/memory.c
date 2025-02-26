@@ -100,7 +100,29 @@ uint32_t read_lower_half(uint32_t address, int sign_extend, memory_t programMemo
 {
 	if((address % 4) != 0)
 	{
-		printf("un-aligned reference on load upper word\n");
+		printf("un-aligned reference on load lower word\n");
+		exit(EXIT_FAILURE);
+	}
+	uint32_t reg = programMemory.array[programMemory.startAddress + address + 1];
+	reg = reg << 8;
+	reg = reg | programMemory.array[programMemory.startAddress + address];
+	if(sign_extend && reg & 0x8000)
+	{
+		reg |= 0xFFFF0000;
+	}
+	return reg;
+}
+
+
+
+// Returns a 32bit where the lower are the word. Fails with un-aligned address
+// sign_extend = 0 for no sign extension.
+// little-endian
+uint32_t read_half(uint32_t address, int sign_extend, memory_t programMemory)
+{
+	if((address % 2) != 0)
+	{
+		printf("un-aligned reference on load lower word\n");
 		exit(EXIT_FAILURE);
 	}
 	uint32_t reg = programMemory.array[programMemory.startAddress + address + 1];

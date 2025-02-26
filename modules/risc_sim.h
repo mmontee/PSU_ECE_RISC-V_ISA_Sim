@@ -12,6 +12,8 @@ input_params_t parse_args(int argc, char *argv[]);
 
 memory_t parse_input(input_params_t *params);
 
+void print_bits(uint32_t reg, uint32_t registers[]);
+
 #endif
 
 

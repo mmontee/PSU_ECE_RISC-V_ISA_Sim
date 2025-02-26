@@ -8,6 +8,8 @@
 #include "./modules/execute.h"
 #include "./modules/instructions.h"
 
+//#define DEBUG
+
 hardware_t hardware;
 uint8_t halt = 0;
 int main(int argc, char *argv[])
@@ -21,11 +23,20 @@ int main(int argc, char *argv[])
     // While the machine is not halted fetch inctructions and incrment the PC
     while(halt == 0)
     {
+        #ifdef DEBUG
+            printf("\nPC Address = 0x%08X\n", hardware.programCounter);
+        #endif
+            
         // fetch the current instruction
         uint32_t currentInstruction = read_word(hardware.programCounter, hardware.programMemory);
-        
+        #ifdef DEBUG
+            printf("Instruction Code = 0x%08X\n", currentInstruction);
+        #endif
+        // Decode current instruction
         decoded_instr_t decodedInstruction = decode_instruction(currentInstruction);
         
+
+        // Execute current instruction
         switch(decodedInstruction.opcode)
         {
             case 0x33:// R-type
@@ -54,12 +65,12 @@ int main(int argc, char *argv[])
 		          exit(EXIT_FAILURE);
 		          break;
         }
-        
-        printf("PC Address = 0x%08X Instruction = 0x%08X\n", hardware.programCounter, currentInstruction);
-        // Decode current instruction
-        
-        // Exicute current instruction
-        
+              
+        for(int i = 0; i < 32; i++)
+        {
+            print_bits(i, hardware.registers);
+        }
+                 
         // Will need to jump over this is a new PC in created by instruction
         hardware.programCounter += 4;
         

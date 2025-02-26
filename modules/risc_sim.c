@@ -121,3 +121,14 @@ memory_t parse_input(input_params_t *input)
 	return programMemory;
 }
 
+void print_bits(uint32_t reg, uint32_t registers[])
+{
+	uint32_t localReg = registers[reg];
+	printf("REG x%02d = 0x%08X = ", reg, localReg);
+	for(int i = 0; i < 32; i++)
+	{
+		int temp = (localReg & (0x80000000 >> i))? 1: 0;
+		printf("%d", temp);
+	}
+	printf("\n");
+}

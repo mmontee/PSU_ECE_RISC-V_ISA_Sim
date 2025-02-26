@@ -3,13 +3,13 @@ Functions related to executing instruction types. Uses decoded instructions deco
 */
 #include "../modules/execute.h"
 
+
 // R-Type ------------------------------------------------------------------------------------------------
 void execute_r_type(decoded_instr_t instruction, hardware_t hrdwr)
 {
     #ifdef DEBUG
-        printf("Executing R-type instruction.");
+        printf("Executing R-type instruction.\n");
     #endif
-    uint32_t instructionCode = 0;
     switch(instruction.funct3)
     {
     case 0x0:
@@ -65,14 +65,13 @@ void execute_r_type(decoded_instr_t instruction, hardware_t hrdwr)
         exit(EXIT_FAILURE);
         break;
     }
-    return instructionCode;
 }
 
 // I-Type ------------------------------------------------------------------------------------------------
 void execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
 {
     #ifdef DEBUG
-        printf("Executing I-type instruction.");
+        printf("Executing I-type instruction.\n");
     #endif
     switch(instruction.opcode)// outermost switch collects all possible opcodes
     {
@@ -176,7 +175,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t hrdwr)
 void execute_s_type(decoded_instr_t instruction, hardware_t hrdwr)
 {
     #ifdef DEBUG
-        printf("Executing S-type instruction.");
+        printf("Executing S-type instruction.\n");
     #endif
     switch(instruction.funct3)
     {
@@ -200,27 +199,27 @@ void execute_s_type(decoded_instr_t instruction, hardware_t hrdwr)
 void execute_b_type(decoded_instr_t instruction, hardware_t hrdwr)
 {
     #ifdef DEBUG
-        printf("Executing B-type instruction.");
+        printf("Executing B-type instruction.\n");
     #endif
     switch(instruction.funct3)
     {
         case 0x0:// beq
-            beq(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+            beq(instruction,  hrdwr.registers, hrdwr.programCounter);
             break;
         case 0x1:// bne
-            bne(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+            bne(instruction,  hrdwr.registers, hrdwr.programCounter);
             break;
         case 0x4:// blt
-            blt(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+            blt(instruction,  hrdwr.registers, hrdwr.programCounter);
             break;  
         case 0x5:// bge
-            bge(instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+            bge(instruction,  hrdwr.registers, hrdwr.programCounter);
             break;  
         case 0x6:// bltu
-            bltu( instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+            bltu( instruction,  hrdwr.registers, hrdwr.programCounter);
             break; 
         case 0x7:// bgeu
-            bgeu( instruction,  hrdwr.registers,  hrdwr.programMemory,  hrdwr.programCounter);
+            bgeu( instruction,  hrdwr.registers, hrdwr.programCounter);
             break;                                                                       
         default:
             printf("Unknown funct3 code in B-type\n");
@@ -233,7 +232,7 @@ void execute_b_type(decoded_instr_t instruction, hardware_t hrdwr)
 void execute_u_type(decoded_instr_t instruction, hardware_t hrdwr)
 {
     #ifdef DEBUG
-        printf("Executing U-type instruction.");
+        printf("Executing U-type instruction.\n");
     #endif
     switch(instruction.opcode)
     {

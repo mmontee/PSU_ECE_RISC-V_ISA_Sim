@@ -101,7 +101,7 @@ void addi(decoded_instr_t instruction, uint32_t registers[]) //rd = rs1 + imm
 {
         registers[instruction.rd] = registers[instruction.rs1] + instruction.imm;
         #ifdef DEBUG
-            printf("Executed ADDI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
+            printf("Executed ADDI: rd=%u, rs1=%u, imm=%d, Result=%d\n", instruction.rd, instruction.rs1, instruction.imm, registers[instruction.rd]);
         #endif
 }
 
@@ -109,7 +109,7 @@ void slti(decoded_instr_t instruction, uint32_t registers[]) //rd = (rs1 < imm)?
 {
         registers[instruction.rd] = (registers[instruction.rs1] < instruction.imm) ? 1 : 0;
         #ifdef DEBUG
-            printf("Executed SLTI: rd=%u, rs1=%u, imm=%d\n", instructoin.rd, instruction.rs1, instruction.imm);
+            printf("Executed SLTI: rd=%u, rs1=%u, imm=%d\n", instruction.rd, instruction.rs1, instruction.imm);
         #endif
 }
 
@@ -174,17 +174,17 @@ void lb(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the byte address -note
     registers[instruction.rd] = read_byte(address, 1, memory);  // Sign-extended
     #ifdef DEBUG
-        printf("Executed LB: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, (int8_t)memory[address]);
+        printf("Executed LB: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
 }
 
 void lh(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the word address -note
-    registers[instruction.rd] = read_lower_half(address, 1, memory);  // Sign-extended
+    registers[instruction.rd] = read_half(address, 1, memory);  // Sign-extended
     
     #ifdef DEBUG
-        printf("Executed LH: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, (int16_t)(memory[address] | (memory[address + 1] << 8)));
+        printf("Executed LH: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
 }
 
@@ -202,14 +202,14 @@ void lbu(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     uint32_t address = registers[instruction.rs1] + instruction.imm;
     registers[instruction.rd] = read_byte(address, 0, memory);  // Zero-extended
     #ifdef DEBUG
-        printf("Executed LBU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, memory[address]);
+        printf("Executed LBU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
 }
 
 void lhu(decoded_instr_t instruction, uint32_t registers[], memory_t memory) 
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm;
-    registers[instruction.rd] = read_lower_half(address, 0, memory);  // Zero-extended
+    registers[instruction.rd] = read_half(address, 0, memory);  // Zero-extended
     #ifdef DEBUG
         printf("Executed LHU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
@@ -241,7 +241,7 @@ void sb(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; // This should be the byte address -note
     uint32_t value = 0;
-    value = (instruction.rs2 & 0xFF); // I just want store the lower 8 bits
+    value = (instruction.rs2 & 0xFF); // Store the lower 8 bits
     write_byte(address, value, memory);
     #ifdef DEBUG
         printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
@@ -252,7 +252,7 @@ void sh(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
 {
     uint32_t address = registers[instruction.rs1] + instruction.imm; 
     uint32_t value = 0;
-    value = (instruction.rs2 & 0xFFFF); // I just want store the lower 16 bits
+    value = (instruction.rs2 & 0xFFFF); // Store the lower 16 bits
     write_half_word(address, value, memory);
     #ifdef DEBUG
         printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
@@ -264,7 +264,7 @@ void sw(decoded_instr_t instruction, uint32_t registers[], memory_t memory)
     uint32_t address = registers[instruction.rs1] + instruction.imm; 
     write_word(address, instruction.rs2, memory);
     #ifdef DEBUG
-        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, value);
+        printf("Executed SB: rs1=%u, address=0x%08x, value=%d\n", instruction.rs1, address, instruction.rs2);
     #endif
 }
 

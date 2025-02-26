@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "../modules/memory.h"
 #include "../modules/decode.h"
+#include "../modules/defines.h"
+
 void add(decoded_instr_t instruction, uint32_t registers[]);
 void sub(decoded_instr_t instruction, uint32_t registers[]);
 void sll(decoded_instr_t instruction, uint32_t registers[]);

@@ -9,6 +9,7 @@ Functions related to reading and writing from memory
 #include <string.h>
 #include "../modules/types.h"
 #include "../modules/instructions.h"
+#include "../modules/defines.h"
 
 void execute_r_type(decoded_instr_t instruction, hardware_t hrdwr);
 

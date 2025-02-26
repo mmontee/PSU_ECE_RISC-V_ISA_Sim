@@ -3,6 +3,9 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include "../modules/types.h"
+#include "../modules/defines.h"
+
 
 decoded_instr_t decode_instruction(uint32_t instruction);
 
