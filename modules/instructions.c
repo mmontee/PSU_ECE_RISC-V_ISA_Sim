@@ -403,65 +403,6 @@ void bgeu(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCou
 
 }
 
-/*
-
-// use opcode in decoded struct value 0x63 to enter this function 
-void btype(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter, uint32_t target_address)
-{
-    int32_t rs1_value = registers[instruction.rs1]; // vbalue rs1 reg
-    int32_t rs2_value = registers[instruction.rs2]; // vlue rs2 reg
-    int32_t targetAddress; //  target adress
-    
-    
-    targetAddress = programCounter + (instruction.imm << 1); //imm is shifted left by 1
-
-   
-    switch (instruction.funct3) {
-        case 0x0: //beq
-            if (rs1_value == rs2_value) {
-                programCounter = targetAddress;
-            }
-            break;
-        case 0x1: //bne
-            if (rs1_value != rs2_value) {
-                programCounter = targetAddress;
-            }
-            break;
-        case 0x4: //blt
-            if (rs1_value < rs2_value) {
-                programCounter = targetAddress;
-            }
-            break;
-        case 0x5: //bge
-            if (rs1_value >= rs2_value) {
-                programCounter = targetAddress;
-            }
-            break;
-        case 0x8: //bltu
-            if ((uint32_t)rs1_value < (uint32_t)rs2_value) {
-                programCounter = targetAddress;
-            }
-            break;
-        case 0x9: //bgeu
-            if ((uint32_t)rs1_value >= (uint32_t)rs2_value) {
-                programCounter = targetAddress;
-            }
-            break;
-        default:
-            // Invalid 
-            printf("invalid branch");
-            break;
-    }
-
-    #ifdef DEBUG
-        printf("Executed Branch: funct3=0x%01x, rs1_value=%d, rs2_value=%d, targetAddress=0x%08x, programCounter=0x%08x\n",
-               instruction.funct3, rs1_value, rs2_value, targetAddress, programCounter);
-    #endif
-
-}
-
-*/
-
 //U-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
 void lui(decoded_instr_t instruction, uint32_t *registers) //rd = imm << 12
 {
@@ -496,40 +437,4 @@ void jal(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCoun
     #endif
     
 }
-
-
-/*
-
-extern uint32_t registers[32]; 
-extern uint32_t *programCounter; 
-
-void execute_jump(decoded_instr_t decoded) {
-    switch (decoded.opcode) {
-        case 0x6F: { // JAL (Jump and Link)
-            uint32_t return_address = programCounter + 4; // Address after current instruction
-            programCounter = programCounter + decoded.imm; // Jump to target address
-            if (decoded.rd != 0) { // Avoid writing to x0
-                registers[decoded.rd] = return_address;
-            }
-            printf("Executed JAL: rd=%u, target_pc=0x%08x\n", decoded.rd, programCounter);
-            break;
-        }
-
-        case 0x67: { // JALR (Jump and Link Register)
-            uint32_t return_address = programCounter + 4; // Address after current instruction
-            programCounter = (registers[decoded.rs1] + decoded.imm) & ~1; // Jump to target address with LSB cleared
-            if (decoded.rd != 0) { // Avoid writing to x0
-                registers[decoded.rd] = return_address;
-            }
-            printf("Executed JALR: rd=%u, rs1=%u, target_pc=0x%08x\n", decoded.rd, decoded.rs1, programCounter);
-            break;
-        }
-
-        default:
-            printf("Unsupported jump instruction: opcode 0x%02x\n", decoded.opcode);
-            break;
-    }
-}
-
-*/
 
