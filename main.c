@@ -19,7 +19,10 @@ int main(int argc, char *argv[])
     hardware.programCounter = userParams.startAddress;
     // Load input file into memory.
     hardware.programMemory = parse_input(&userParams);
-    printf("instructionCount = %d\n", userParams.instructionCount);
+    hardware.programMemory.startAddress = userParams.startAddress;
+    hardware.programMemory.heapSize = userParams.heapSize;
+    hardware.programMemory.stackSize = userParams.stackSize;
+    printf("instructionCount = %d\n", hardware.programMemory.instructionCount);
     // While the machine is not halted fetch inctructions and incrment the PC
     while(halt == 0)
     {

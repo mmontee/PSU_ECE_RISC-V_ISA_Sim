@@ -5,9 +5,9 @@ input_params_t parse_args(int argc, char *argv[])
 {
 	input_params_t myParams;
 	// Set defaults
-	myParams.instructionCount = 0;
-	myParams.startAddress = 0;
-	myParams.stackSize = 0;
+	myParams.startAddress = DEFAULT_START_ADDRESS;
+    myParams.heapSize = DEFAULT_HEAP_SIZE;
+	myParams.stackSize = DEFAULT_STACK_SIZE;
 	myParams.inputFileType = 0;
 
 	if(argc <= 1)
@@ -41,6 +41,11 @@ input_params_t parse_args(int argc, char *argv[])
 				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
 				printf("Input File Type = %d\n", myParams.inputFileType);
 			}
+		    else if(strcmp(temp, "-h") == 0)
+			{
+				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
+				printf("Input File Type = %d\n", myParams.heapSize);
+			}
 			count++;
 		}
 	}
@@ -51,6 +56,7 @@ input_params_t parse_args(int argc, char *argv[])
 memory_t parse_input(input_params_t *input)
 {
 	memory_t programMemory;
+    programMemory.instructionCount = 0;
 	programMemory.startAddress = input->startAddress;
 	char line[64];
 	if(input->inputFileType== 0)
@@ -58,7 +64,6 @@ memory_t parse_input(input_params_t *input)
 	    uint32_t index = 0;
 	    while (fgets(line, sizeof(line), input->inputFilePath) != NULL)
 	    {
-            input->instructionCount++;
             // Following the ':' is the command, find the ':'
             int count = 0;
             char peekChar;
@@ -77,6 +82,7 @@ memory_t parse_input(input_params_t *input)
 				programMemory.array[input->startAddress + index] = (int)strtol(byteString, NULL, 16);
 				index++;
             }
+            	programMemory.instructionCount++;
 	    }
 	}
 	else
@@ -84,7 +90,6 @@ memory_t parse_input(input_params_t *input)
 		// Get a line from the file or fail trying
 		while (fgets(line, sizeof(line), input->inputFilePath) != NULL)
 		{
-			input->instructionCount++;
 			// Following the ':' is the command, find the ':'
 			int count = 0;
 			char peekChar;
@@ -103,7 +108,7 @@ memory_t parse_input(input_params_t *input)
 			// Check address for alignment
 			if(baseAddress % 4 != 0)
 			{
-				printf("un-aligned reference. Address : 0x%08X\n", baseAddress);
+				printf("un-aligned reference during input parseing. Address : 0x%08X\n", baseAddress);
 				exit(EXIT_FAILURE);
 			}
 			// Now copy the 8 byte word into memory 1 byte at a time
@@ -116,6 +121,7 @@ memory_t parse_input(input_params_t *input)
 				programMemory.array[programMemory.startAddress + baseAddress + index] = (uint8_t)strtol(byteString, NULL, 16);
 				index++;
 			}
+		    programMemory.instructionCount++;
 		}
 	}
 	return programMemory;

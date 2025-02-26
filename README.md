@@ -27,4 +27,6 @@ Example:
 $ ./<app name> -f ./test_input.dat -s 128 -a 4096 
 ```
 
-![Alt text](main_map.png)
+![Alt text](docs/main_map.png)
+
+![Alt text](docs/memStruct.png)
