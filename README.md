@@ -28,7 +28,7 @@ $ ./<app name> -f ./test_input.dat -s 128 -a 4096
 ```
 
 ![Alt text](docs/main_map.png)
-<p align="center">
+
 ![Alt text](docs/memStruct.png)
-</p>
+
 
