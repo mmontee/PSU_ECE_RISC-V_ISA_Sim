@@ -150,7 +150,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
             jalr(instruction, hrdwr->registers,   &hrdwr->programCounter);
             break;
         case 0x73:
-            switch(instruction.imm)// two different shift right
+            switch(instruction.imm)
             {
             case 0x0:// ecall
                 ecall();

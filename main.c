@@ -66,18 +66,18 @@ int main(int argc, char *argv[])
 		          exit(EXIT_FAILURE);
 		          break;
         }
-              
-        for(int i = 0; i < 32; i++)
-        {
-            print_bits(i, hardware.registers);
-            
-        }
-        for(int i = 0; i < 32; i++)
-        {
-            printf("memory address 0x%08X = 0x%08X\n", i * 4,read_word(i * 4, &hardware.programMemory));
-            
-            
-        }
+          
+        #ifdef DEBUG          
+            for(int i = 0; i < 32; i++)
+            {
+                print_bits(i, hardware.registers);
+                
+            }
+            for(int i = 0; i < 32; i++)
+            {
+                printf("memory address 0x%08X = 0x%08X\n", i * 4,read_word(i * 4, &hardware.programMemory));
+            }
+        #endif
             
                             
         // Will need to jump over this is a new PC in created by instruction
@@ -89,6 +89,12 @@ int main(int argc, char *argv[])
             halt = 1;
             printf("Halt\n");
         }
+        
+        #ifdef STEP
+            printf("\nPress Return to step to PC = 0x%08x\n", hardware.programCounter);
+            getchar(); // This is the key part!  Blocks until a key is pressed.
+        #endif
+        
     }
     return 0;
  }
