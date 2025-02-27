@@ -18,14 +18,14 @@ uint32_t read_memory(uint32_t address, int sign_extend, memory_t *programMemory,
         case 2:
             if((address % 2) != 0)
 	        {
-		       printf("un-aligned reference on read_half\n");
-		       exit(EXIT_FAILURE);
+                printf("un-aligned reference on 2 byte read\n");
+                exit(EXIT_FAILURE);
 	        }
             break;
         case 4:
             if((address % 4) != 0)
             {
-                printf("un-aligned reference on read_lower_half\n");
+                printf("un-aligned reference on 4 byte read\n");
                 exit(EXIT_FAILURE);
             }
             break;
@@ -74,19 +74,19 @@ void write_memory(uint32_t address, memory_t *programMemory, uint8_t numBytes, u
         case 2:
             if((address % 2) != 0)
 	        {
-		       printf("un-aligned reference on read_half\n");
+		       printf("un-aligned reference on 2 byte write\n");
 		       exit(EXIT_FAILURE);
 	        }
             break;
         case 4:
             if((address % 4) != 0)
             {
-                printf("un-aligned reference on read_lower_half\n");
+                printf("un-aligned reference on 4 byte writen");
                 exit(EXIT_FAILURE);
             }
             break;
         default:
-            printf("Incorrect numBytes in read_memory()\n");
+            printf("Incorrect numBytes in write_memory()\n");
             exit(EXIT_FAILURE);
             break;
     }

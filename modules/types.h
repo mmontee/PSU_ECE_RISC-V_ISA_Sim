@@ -9,8 +9,6 @@ typedef struct
 	uint8_t array[MAX_SIZE];
 	uint32_t startAddress;
     uint32_t instructionCount;
-    uint32_t heapSize;
-    uint32_t stackSize;
 } memory_t;
 
 typedef struct
@@ -30,14 +28,14 @@ typedef struct
     uint32_t imm;
     uint32_t funct3;
     uint32_t funct7;
+    uint32_t halt;
 } decoded_instr_t;
 
 typedef struct
 {
 	FILE *inputFilePath;
 	uint32_t startAddress;
-	uint32_t stackSize;
-    uint32_t heapSize;
+	uint32_t stackPointer;
 	uint32_t inputFileType;
 } input_params_t;
 

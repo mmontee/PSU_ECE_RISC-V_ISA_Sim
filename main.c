@@ -8,10 +8,8 @@
 #include "./modules/execute.h"
 #include "./modules/instructions.h"
 
-//#define DEBUG
-
+//uint8_t halt = 0;
 hardware_t hardware;
-uint8_t halt = 0;
 int main(int argc, char *argv[])
 {
     // Read User arguments
@@ -20,24 +18,32 @@ int main(int argc, char *argv[])
     // Load input file into memory.
     hardware.programMemory = parse_input(&userParams);
     hardware.programMemory.startAddress = userParams.startAddress;
-    hardware.programMemory.heapSize = userParams.heapSize;
-    hardware.programMemory.stackSize = userParams.stackSize;
-    printf("instructionCount = %d\n", hardware.programMemory.instructionCount);
+    // init registers
+    hardware.registers[2] = userParams.stackPointer;
+    hardware.registers[1] = 0;
+    hardware.registers[0] = 0;
+    
+
+    
+    decoded_instr_t decodedInstruction;
+    decodedInstruction.halt = 0;
     // While the machine is not halted fetch inctructions and incrment the PC
-    while(halt == 0)
+    while(decodedInstruction.halt == 0)
     {
-        #ifdef DEBUG
+        #ifdef VERBOSE
             printf("\nPC Address = 0x%08X\n", hardware.programCounter);
         #endif
             
         // fetch the current instruction
         uint32_t currentInstruction = read_memory(hardware.programCounter, 0, &hardware.programMemory, 4);
-        #ifdef DEBUG
+        #ifdef VERBOSE
             printf("Instruction Code = 0x%08X\n", currentInstruction);
         #endif
-        // Decode current instruction
-        decoded_instr_t decodedInstruction = decode_instruction(currentInstruction);
         
+        
+        // Decode current instruction
+        decodedInstruction = decode_instruction(currentInstruction);
+
 
         // Execute current instruction
         switch(decodedInstruction.opcode)
@@ -66,30 +72,33 @@ int main(int argc, char *argv[])
 		          break;
             default:
 		          printf("Unknown op-code\n");
-		          exit(EXIT_FAILURE);
+		          decodedInstruction.halt = 1;
 		          break;
         }
           
-        #ifdef DEBUG          
+          
+        #ifdef VERBOSE          
             for(int i = 0; i < 32; i++)
             {
                 print_bits(i, hardware.registers);
                 
             }
-            for(uint32_t i = 0; i < hardware.programMemory.instructionCount + hardware.programMemory.heapSize + hardware.programMemory.stackSize; i++)
+        #endif  
+        #ifdef DEBUG          
+            for(uint32_t i = 0; i < hardware.programMemory.instructionCount; i++)
             {
                 printf("memory address 0x%08X = 0x%08X\n", i * 4, read_memory(i * 4, 0, &hardware.programMemory, 4));
             }
         #endif
             
                             
-        // Will need to jump over this is a new PC in created by instruction
+        // Will need to jump over this is a new PC in created by instruction(currently handled by - 4 on execution)
         hardware.programCounter += 4;
         
         // This will be removed once we can decode the "jmp ra=0" halt instruction
         if(currentInstruction == 0x00000000)
         {
-            halt = 1;
+            decodedInstruction.halt = 1;
             printf("Halt\n");
         }
         
@@ -98,6 +107,13 @@ int main(int argc, char *argv[])
             getchar(); // This is the key part!  Blocks until a key is pressed.
         #endif
         
+    }
+    printf("\n-----PROGRAM HALT------\n");
+    // Print the final PC and registeres on the way out.
+    printf("\nFinal PC Address = 0x%08X\n", hardware.programCounter - 4);
+    for(int i = 0; i < 32; i++)
+    {
+        print_bits(i, hardware.registers);
     }
     return 0;
  }

@@ -229,7 +229,7 @@ void ebreak()
     printf("EBREAK instruction executed: Entering debug mode or breaking execution.\n");
 }
 
-void ecall(uint32_t *registers)
+void ecall(decoded_instr_t instruction, uint32_t *registers)
 {
     switch(registers[7])
     {
@@ -241,7 +241,7 @@ void ecall(uint32_t *registers)
             break;
         default:
             printf("Unknown ecall() code\n");
-            exit(EXIT_FAILURE);
+            instruction.halt = 1;
             break;
     }
     printf("ECALL instruction executed: System call invoked.\n");

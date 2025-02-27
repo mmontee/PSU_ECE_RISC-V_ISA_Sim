@@ -84,6 +84,7 @@ decoded_instr_t decode_instruction(uint32_t instruction) {
 
         default:
             printf("Invalid opcode: 0x%02x\n", opcode);
+            decoded.halt = 1;
             break;
     }
 

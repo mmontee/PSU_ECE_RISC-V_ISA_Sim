@@ -23,7 +23,7 @@ void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr)
             break;
         default:
             printf("Unknown func7 code in R-type\n");
-            exit(EXIT_FAILURE);
+            instruction.halt = 1;
             break;
         }
         break;
@@ -50,7 +50,7 @@ void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr)
             break;
         default:
             printf("Unknown func7 code in R-type\n");
-            exit(EXIT_FAILURE);
+            instruction.halt = 1;
             break;
         }
         break;
@@ -62,7 +62,7 @@ void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr)
         break;
     default:
         printf("Unknown func3 code in R-type\n");
-        exit(EXIT_FAILURE);
+        instruction.halt = 1;
         break;
     }
 }
@@ -106,7 +106,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
                         break;
                     default:
                         printf("Unknown funct7 code in I-type. opcode: 0x%X\n", instruction.opcode);
-                        exit(EXIT_FAILURE);
+                        instruction.halt = 1;
                         break;
                     }
                     break;
@@ -118,7 +118,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
                     break;                                     
                 default:
                     printf("Unknown funct3 code in I-type. opcode: 0x%X\n", instruction.opcode);
-                    exit(EXIT_FAILURE);
+                    instruction.halt = 1;
                     break;
             }
             break;
@@ -142,7 +142,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
                     break;                                                                                                  
                 default:
                     printf("Unknown funct3 code in I-type. opcode: 0x%X\n", instruction.opcode);
-                    exit(EXIT_FAILURE);
+                    instruction.halt = 1;
                     break;
             }
             break;
@@ -153,20 +153,20 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
             switch(instruction.imm)
             {
             case 0x0:// ecall
-                ecall(hrdwr->registers);
+                ecall(instruction, hrdwr->registers);
                 break;
             case 0x1:// ebreak
                 ebreak();
                 break;
             default:
                 printf("Unknown imm code in I-type. opcode: 0x%X\n", instruction.opcode);
-                exit(EXIT_FAILURE);
+                instruction.halt = 1;
                 break;
             }        
             break;          
         default:
             printf("Unknown opcode code in I-type\n");
-            exit(EXIT_FAILURE);
+            instruction.halt = 1;
             break;
     }
 }
@@ -191,7 +191,7 @@ void execute_s_type(decoded_instr_t instruction, hardware_t *hrdwr)
             break;                        
         default:
             printf("Unknown funct3 code in S-type\n");
-            exit(EXIT_FAILURE);        
+            instruction.halt = 1;        
             break;
     }
 }
@@ -225,7 +225,7 @@ void execute_b_type(decoded_instr_t instruction, hardware_t *hrdwr)
             break;                                                                       
         default:
             printf("Unknown funct3 code in B-type\n");
-            exit(EXIT_FAILURE);        
+            instruction.halt = 1;        
             break;
     }
 }
@@ -246,7 +246,7 @@ void execute_u_type(decoded_instr_t instruction, hardware_t *hrdwr)
             break;                     
         default:
             printf("Unknown opcode code in U-type\n");
-            exit(EXIT_FAILURE);        
+            instruction.halt = 1;        
             break;
     }
 }
@@ -263,7 +263,7 @@ void execute_j_type(decoded_instr_t instruction, hardware_t *hrdwr)
             break;
         default:
             printf("Unknown opcode code in U-type\n");
-            exit(EXIT_FAILURE);        
+            instruction.halt = 1;        
             break;
     }
 }

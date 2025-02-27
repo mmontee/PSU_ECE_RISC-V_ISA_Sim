@@ -18,9 +18,8 @@ Run time arguments flags.
 Default values are assumed when argument is absent.
 
 -f <input file path> 
--s <stack size> -- bytes
--h <heap size> -- bytes
--a <starting address> -- bytes address
+-s <stack Address>
+-a <starting address> -- Word address
 -ft <input file type>  -- 0 = seqential index, -ft 1 = word address index
 
 Example:

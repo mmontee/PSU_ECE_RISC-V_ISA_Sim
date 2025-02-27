@@ -6,8 +6,7 @@ input_params_t parse_args(int argc, char *argv[])
 	input_params_t myParams;
 	// Set defaults
 	myParams.startAddress = DEFAULT_START_ADDRESS;
-    myParams.heapSize = DEFAULT_HEAP_SIZE;
-	myParams.stackSize = DEFAULT_STACK_SIZE;
+	myParams.stackPointer = DEFAULT_STACK_ADDRESS;
 	myParams.inputFileType = 0;
 
 	if(argc <= 1)
@@ -28,8 +27,8 @@ input_params_t parse_args(int argc, char *argv[])
 			}
 			else if(strcmp(temp, "-s") == 0)
 			{
-				myParams.stackSize = strtoul(argv[count + 1], NULL, 0);
-				printf("Stack Size = %d\n", myParams.stackSize);
+				myParams.stackPointer = strtoul(argv[count + 1], NULL, 0);
+				printf("Stack Pointer = %d\n", myParams.stackPointer);
 			}
 			else if(strcmp(temp, "-a") == 0)
 			{
@@ -40,11 +39,6 @@ input_params_t parse_args(int argc, char *argv[])
 			{
 				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
 				printf("Input File Type = %d\n", myParams.inputFileType);
-			}
-		    else if(strcmp(temp, "-h") == 0)
-			{
-				myParams.heapSize = strtoul(argv[count + 1], NULL, 0);
-				printf("Head size = %d\n", myParams.heapSize);
 			}
 			count++;
 		}
