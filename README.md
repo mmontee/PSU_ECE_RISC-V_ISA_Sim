@@ -7,8 +7,9 @@ make main
 
 Compile time arguments flags.
 
--DDEBUG_ON -- Enable debug output.
+-DVERBOSE -- Enable verbose output.
 -DSTEP -- Enable key press instruction stepping.
+-DDEBUG_ON -- Enable debug output and define VEBOSE
 
 Example:
 
