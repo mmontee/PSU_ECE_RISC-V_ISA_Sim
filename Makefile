@@ -28,6 +28,9 @@ MAIN_OBJS = $(SRC_DIR)/main.o $(MODULE_OBJS)  # Make sure all needed modules are
 TEST_EXE = parse_test
 TEST_OBJS = $(TESTS_DIR)/parse_test.o $(MODULE_OBJS)
 
+TEST_EXE = mem_test
+TEST_OBJS = $(TESTS_DIR)/mem_test.o $(MODULE_OBJS)
+
 # All objects (for cleaning)
 ALL_OBJS = $(MAIN_OBJS) $(TEST_OBJS)
 
@@ -42,7 +45,7 @@ $(TEST_EXE): $(TEST_OBJS)
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(TEST_OBJS) -o $(TEST_EXE)
 
 $(MAIN_EXE): $(MAIN_OBJS)
-	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(MAIN_OBJS) -o $(MAIN_EXE)
+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(MAIN_OBJS) -o $(MAIN_EXE) 
 
 # Clean target
 clean:

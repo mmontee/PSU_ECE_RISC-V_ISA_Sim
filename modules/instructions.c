@@ -175,7 +175,7 @@ void lb(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed LB: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
-    registers[instruction.rd] = read_byte(address, 1, memory);  // Sign-extended
+    registers[instruction.rd] = read_memory(address, 1, memory, 1);  // Sign-extended
 }
 
 void lh(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
@@ -184,7 +184,7 @@ void lh(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed LH: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
-    registers[instruction.rd] = read_half(address, 1, memory);  // Sign-extended
+    registers[instruction.rd] = read_memory(address, 1, memory, 2);   // Sign-extended
 }
 
 void lw(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
@@ -193,7 +193,7 @@ void lw(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed LW: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
-    registers[instruction.rd] = read_word(address, memory);
+    registers[instruction.rd] = read_memory(address, 0, memory, 4);
 }
 
 void lbu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
@@ -202,7 +202,7 @@ void lbu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed LBU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
-    registers[instruction.rd] = read_byte(address, 0, memory);  // Zero-extended
+    registers[instruction.rd] = read_memory(address, 0, memory, 1);  // Zero-extended
 }
 
 void lhu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory) 
@@ -211,7 +211,7 @@ void lhu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed LHU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction.rd, instruction.rs1, address, registers[instruction.rd]);
     #endif
-    registers[instruction.rd] = read_half(address, 0, memory);  // Zero-extended
+    registers[instruction.rd] = read_memory(address, 0, memory, 2);  // Zero-extended
 }
 
 void jalr(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter)
@@ -229,8 +229,21 @@ void ebreak()
     printf("EBREAK instruction executed: Entering debug mode or breaking execution.\n");
 }
 
-void ecall()
+void ecall(uint32_t *registers)
 {
+    switch(registers[7])
+    {
+        case 63:
+            break;
+        case 64:
+            break;
+        case 94:
+            break;
+        default:
+            printf("Unknown ecall() code\n");
+            exit(EXIT_FAILURE);
+            break;
+    }
     printf("ECALL instruction executed: System call invoked.\n");
 }
 
@@ -245,7 +258,7 @@ void sb(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed SB: rs1=%u, rs2=%u=0x%08x, value=%u\n", instruction.rs1, instruction.rs2, address, value);
     #endif
-    write_byte(address, value, memory);
+    write_memory(address, memory, 1, value);
 }
 
 void sh(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
@@ -257,7 +270,7 @@ void sh(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed SH:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction.rs1, instruction.rs2, address, value);
     #endif
-    write_half_word(address, value, memory);
+    write_memory(address, memory, 2, value);
 }
 
 void sw(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
@@ -267,7 +280,7 @@ void sw(decoded_instr_t instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed SW:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction.rs1, instruction.rs2, address, instruction.rs2);
     #endif
-    write_word(address, registers[instruction.rs2], memory);
+    write_memory(address, memory, 4, registers[instruction.rs2]);
 }
 
 

@@ -43,8 +43,8 @@ input_params_t parse_args(int argc, char *argv[])
 			}
 		    else if(strcmp(temp, "-h") == 0)
 			{
-				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
-				printf("Input File Type = %d\n", myParams.heapSize);
+				myParams.heapSize = strtoul(argv[count + 1], NULL, 0);
+				printf("Head size = %d\n", myParams.heapSize);
 			}
 			count++;
 		}

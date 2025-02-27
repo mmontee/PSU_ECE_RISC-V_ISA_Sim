@@ -47,7 +47,7 @@ void lhu(decoded_instr_t instruction, uint32_t *registers, memory_t *memory);
 void jalr(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter);
 void jal(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter);
 void ebreak();
-void ecall();
+void ecall(uint32_t *registers);
 
 void lui(decoded_instr_t instruction, uint32_t *registers);
 void auipc(decoded_instr_t instruction, uint32_t *registers, uint32_t *programCounter);

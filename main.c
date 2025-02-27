@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
         #endif
             
         // fetch the current instruction
-        uint32_t currentInstruction = read_word(hardware.programCounter, &hardware.programMemory);
+        uint32_t currentInstruction = read_memory(hardware.programCounter, 0, &hardware.programMemory, 4);
         #ifdef DEBUG
             printf("Instruction Code = 0x%08X\n", currentInstruction);
         #endif
@@ -76,9 +76,9 @@ int main(int argc, char *argv[])
                 print_bits(i, hardware.registers);
                 
             }
-            for(int i = 0; i < 32; i++)
+            for(uint32_t i = 0; i < hardware.programMemory.instructionCount + hardware.programMemory.heapSize + hardware.programMemory.stackSize; i++)
             {
-                printf("memory address 0x%08X = 0x%08X\n", i * 4,read_word(i * 4, &hardware.programMemory));
+                printf("memory address 0x%08X = 0x%08X\n", i * 4, read_memory(i * 4, 0, &hardware.programMemory, 4));
             }
         #endif
             

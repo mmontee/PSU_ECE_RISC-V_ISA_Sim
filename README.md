@@ -19,6 +19,7 @@ Default values are assumed when argument is absent.
 
 -f <input file path> 
 -s <stack size> -- bytes
+-h <heap size> -- bytes
 -a <starting address> -- bytes address
 -ft <input file type>  -- 0 = seqential index, -ft 1 = word address index
 

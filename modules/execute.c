@@ -153,7 +153,7 @@ void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr)
             switch(instruction.imm)
             {
             case 0x0:// ecall
-                ecall();
+                ecall(hrdwr->registers);
                 break;
             case 0x1:// ebreak
                 ebreak();
