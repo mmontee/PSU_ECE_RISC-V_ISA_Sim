@@ -11,16 +11,16 @@ Functions related to reading and writing from memory
 #include "../modules/instructions.h"
 #include "../modules/defines.h"
 
-void execute_r_type(decoded_instr_t instruction, hardware_t *hrdwr);
+void execute_r_type(decoded_instr_t *instruction, hardware_t *hrdwr);
 
-void execute_i_type(decoded_instr_t instruction, hardware_t *hrdwr);
+void execute_i_type(decoded_instr_t *instruction, hardware_t *hrdwr);
 
-void execute_s_type(decoded_instr_t instruction, hardware_t *hrdwr);
+void execute_s_type(decoded_instr_t *instruction, hardware_t *hrdwr);
 
-void execute_b_type(decoded_instr_t instruction, hardware_t *hrdwr);
+void execute_b_type(decoded_instr_t *instruction, hardware_t *hrdwr);
 
-void execute_u_type(decoded_instr_t instruction, hardware_t *hrdwr);
+void execute_u_type(decoded_instr_t *instruction, hardware_t *hrdwr);
 
-void execute_j_type(decoded_instr_t instruction, hardware_t *hrdwr);
+void execute_j_type(decoded_instr_t *instruction, hardware_t *hrdwr);
 
 #endif

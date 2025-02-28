@@ -6,8 +6,7 @@
 #define DEFAULT_START_ADDRESS 0 
 #define DEFAULT_STACK_ADDRESS 65535   
     
-#ifdef DEBUG_ON    
-    #define DEBUG
+#ifdef DEBUG    
     #define VERBOSE
 #endif
    
