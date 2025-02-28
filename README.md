@@ -9,7 +9,7 @@ Compile time arguments flags.
 
 -DVERBOSE -- Enable verbose output.
 -DSTEP -- Enable key press instruction stepping.
--DDEBUG_ON -- Enable debug output and define VEBOSE
+-DDEBUG -- Enable debug output and define VEBOSE
 
 Example:
 
