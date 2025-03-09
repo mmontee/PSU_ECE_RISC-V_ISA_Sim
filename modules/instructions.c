@@ -284,19 +284,27 @@ void ecall(decoded_instr_t *instruction, uint32_t *registers)
 
 void sb(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm; // This should be the byte address -note
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; // This should be the byte address -note
     uint32_t value = 0;
     value = (registers[instruction->rs2] & 0xFF); // Store the lower 8 bits
     
     #ifdef DEBUG
-        printf("Executed SB: rs1=%u, rs2=%u=0x%08x, value=%u\n", instruction->rs1, instruction->rs2, address, value);
+        printf("Executed SB: rs1=%u, rs2=%u address=0x%08X, value=%u\n", instruction->rs1, instruction->rs2, address, value);
     #endif
     write_memory(address, memory, 1, value);
 }
 
 void sh(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm; 
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; 
     uint32_t value = 0;
     value = (registers[instruction->rs2] & 0x0000FFFF); // Store the lower 16 bits
     
@@ -308,7 +316,11 @@ void sh(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 
 void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm; 
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; 
     
     #ifdef DEBUG
         printf("Executed SW:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction->rs1, instruction->rs2, address, instruction->rs2);

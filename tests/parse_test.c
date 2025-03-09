@@ -29,48 +29,48 @@ int main(int argc, char *argv[])
     hardware.programCounter = userParams.startAddress;
     hardware.programMemory = parse_input(&userParams);
 
-	printf("Instruction count = %d\n", userParams.instructionCount);
+	printf("Instruction count = %d\n", &hardware->programMemory->instructionCount);
 	// Print the bytes
 	printf("Printe bytes with no sign extension-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i++)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i++)
 	{
 		printf("Index = %d : Byte 0x%08X\n", i , read_byte(i, 0, &hardware.programMemory));
 	}
 	printf("\n");
 	printf("Print bytes with sign extension-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i++)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i++)
 	{
 		printf("Index = %d : Byte 0x%08X\n", i , read_byte(i, 1, &hardware.programMemory));
 	}
 	printf("\n");
 	// Print the words
 	printf("Print the words-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i+=4)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_word(i, &hardware.programMemory));
 	}
 	printf("\n");
 	// Print the lower half
 	printf("Print lower half of the words with no sign extension-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i+=4)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_lower_half(i, 0, &hardware.programMemory));
 	}
 	printf("\n");
 	printf("Print lower half of the words with sign extension-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i+=4)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_lower_half(i, 1, &hardware.programMemory));
 	}
 	// Print the upper half
 	printf("Print upper half of the words with no sign extension-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i+=4)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_upper_half(i, 0, &hardware.programMemory));
 	}
 	printf("\n");
 	printf("Print upper half of the words with sign extension-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i+=4)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_upper_half(i, 1, &hardware.programMemory));
 	}
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
 	// Print the words again
 	printf("Print the words-----------------\n");
-	for(uint32_t i = 0; i < userParams.instructionCount * 4; i+=4)
+	for(uint32_t i = 0; i < &hardware->programMemory->instructionCount * 4; i+=4)
 	{
 		printf("@index = %d :  word = 0x%08X\n", i, read_word(i, &hardware.programMemory));
 	}

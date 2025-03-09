@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     hardware.registers[2] = userParams.stackPointer;
     hardware.registers[1] = 0;
     hardware.registers[0] = 0;
-    
+     
 
     
     decoded_instr_t decodedInstruction;

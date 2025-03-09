@@ -7,7 +7,7 @@ To build use:
 
 make main
 
-Compile time arguments flags.
+Compile time argument flags.
 
 -DVERBOSE -- Enable verbose output.
 -DSTEP -- Enable key press instruction stepping.
@@ -17,7 +17,7 @@ Example:
 
 $ make main EXTRA_CFLAGS="-DSTEP -DDEBUG"
 
-Run time arguments flags.
+Run time argument flags.
 Default values are assumed when argument is absent.
 
 -f <input file path> 

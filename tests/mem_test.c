@@ -31,8 +31,6 @@ int main(int argc, char *argv[])
     // Load input file into memory.
     hardware.programMemory = parse_input(&userParams);
     hardware.programMemory.startAddress = userParams.startAddress;
-    hardware.programMemory.heapSize = userParams.heapSize;
-    hardware.programMemory.stackSize = userParams.stackSize;
 
 	printf("Instruction count = %d\n", hardware.programMemory.instructionCount);
 	// Print the bytes
