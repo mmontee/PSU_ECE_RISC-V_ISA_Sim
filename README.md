@@ -1,5 +1,7 @@
 # PSU_ECE_RISC-V_ISA_Sim</br>
 Simple RISC-V ISA Simulator; ECE 486/586 Winter 2025 Final Project</br>
+
+[Test Plan Document](https://docs.google.com/document/d/1qdggXcx8wm82OrkbPRNxwOngLviSx2OqcZfvKck5cYE/edit?usp=sharing) </br>
 ```
 To build use:
 

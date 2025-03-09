@@ -1,5 +1,5 @@
 #include "../modules/decode.h"
-
+#define DEBUG
 // Decode function
 decoded_instr_t decode_instruction(uint32_t instruction) {
     

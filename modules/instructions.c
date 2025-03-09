@@ -2,7 +2,7 @@
 Functions related to instructions
 */
 #include "../modules/instructions.h"
-
+#define DEBUG
 //R-type instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 // ADD: rd = rs1 + rs2
 void add(decoded_instr_t *instruction, uint32_t *registers)
@@ -171,53 +171,86 @@ void srai(decoded_instr_t *instruction, uint32_t *registers)
 
 void lb(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory) 
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm; // This should be the byte address -note
+
+printf("\nin lb imm = 0x%X\n", instruction->imm);
+    // Sign exend imm
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; // This should be the byte address -note
+    registers[instruction->rd] = read_memory(address, 1, memory, 1);  // Sign-extended
     #ifdef DEBUG
         printf("Executed LB: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction->rd, instruction->rs1, address, registers[instruction->rd]);
     #endif
-    registers[instruction->rd] = read_memory(address, 1, memory, 1);  // Sign-extended
+    
 }
 
 void lh(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory) 
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm; // This should be the word address -note    
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; // This should be the word address -note
+    registers[instruction->rd] = read_memory(address, 1, memory, 2);   // Sign-extended    
     #ifdef DEBUG
         printf("Executed LH: rd=%u, rs1=%u, address=0x%08x, value=%d\n", instruction->rd, instruction->rs1, address, registers[instruction->rd]);
     #endif
-    registers[instruction->rd] = read_memory(address, 1, memory, 2);   // Sign-extended
+    
 }
 
 void lw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory) 
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm;
+    registers[instruction->rd] = read_memory(address, 0, memory, 4);
     #ifdef DEBUG
         printf("Executed LW: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction->rd, instruction->rs1, address, registers[instruction->rd]);
     #endif
-    registers[instruction->rd] = read_memory(address, 0, memory, 4);
+    
 }
 
 void lbu(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory) 
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm;
+    registers[instruction->rd] = read_memory(address, 0, memory, 1);  // Zero-extended
     #ifdef DEBUG
         printf("Executed LBU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction->rd, instruction->rs1, address, registers[instruction->rd]);
     #endif
-    registers[instruction->rd] = read_memory(address, 0, memory, 1);  // Zero-extended
+    
 }
 
 void lhu(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory) 
 {
-    uint32_t address = registers[instruction->rs1] + instruction->imm;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm;
+    registers[instruction->rd] = read_memory(address, 0, memory, 2);  // Zero-extended
     #ifdef DEBUG
         printf("Executed LHU: rd=%u, rs1=%u, address=0x%08x, value=%u\n", instruction->rd, instruction->rs1, address, registers[instruction->rd]);
     #endif
-    registers[instruction->rd] = read_memory(address, 0, memory, 2);  // Zero-extended
+    
 }
 
 void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
     uint32_t temp = *(programCounter) + 4;
-    *(programCounter) = ((registers[instruction->rs1] + instruction->imm) & ~1) - 4; // The - 4 counters the PC + 4 in the main loop
+    *(programCounter) = ((registers[instruction->rs1] + (int32_t)instruction->imm) & ~1) - 4; // The - 4 counters the PC + 4 in the main loop
     registers[instruction->rd] = temp;
     #ifdef DEBUG
         printf("Executed JALR: rd=%u, rs1=%u, imm=%d, newPC=0x%08x\n", instruction->rd, instruction->rs1, instruction->imm, *(programCounter));

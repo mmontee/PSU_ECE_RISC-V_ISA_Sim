@@ -31,6 +31,9 @@ TEST_OBJS = $(TESTS_DIR)/parse_test.o $(MODULE_OBJS)
 TEST_EXE = mem_test
 TEST_OBJS = $(TESTS_DIR)/mem_test.o $(MODULE_OBJS)
 
+TEST_EXE = lx_test
+TEST_OBJS = $(TESTS_DIR)/lx_test.o $(MODULE_OBJS)
+
 # All objects (for cleaning)
 ALL_OBJS = $(MAIN_OBJS) $(TEST_OBJS)
 
