@@ -93,22 +93,19 @@ void execute_i_type(decoded_instr_t *instruction, hardware_t *hrdwr)
                 case 0x4:// xori
                     xori(instruction, hrdwr->registers);
                     break;
-                case 0x5:
-                    uint32_t bits = 0;
+                case 0x5: {
+                    uint32_t bits = 0;  
                     bits = (instruction->imm >> 5) & 0x7F;
-                    switch(bits)// two different shift right
+                    switch(bits)
                     {
-                    case 0x0:// srli
-                        srli(instruction, hrdwr->registers);
-                        break;
-                    case 0x20:// srai
-                        srai(instruction, hrdwr->registers);
-                        break;
-                    default:
+                        case 0x0: srli(instruction, hrdwr->registers); break;
+                        case 0x20: srai(instruction, hrdwr->registers); break;
+                        default:
                         printf("Unknown funct7 code in I-type. opcode: 0x%X\n", instruction->opcode);
                         instruction->halt = 1;
                         break;
                     }
+                } 
                     break;
                 case 0x6:// ori
                     ori(instruction, hrdwr->registers);
