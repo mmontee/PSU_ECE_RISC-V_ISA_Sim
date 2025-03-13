@@ -19,8 +19,8 @@ _start:
     # Negative Overflow Test: 0x80000000 - 1
     sub a1, t2, t3      # Expected: 0x7FFFFFFF (2147483647, overflow)
 
-    #xor test
-    xor a2, t3, t3 #Expected: 0x0
+    # xor test
+    xor a2, t3, t3      # Expected: 0x0
 
 
     # End of test
