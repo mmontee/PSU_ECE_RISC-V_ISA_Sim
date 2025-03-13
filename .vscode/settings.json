@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "risc_sim.h": "c"
+    }
+}
