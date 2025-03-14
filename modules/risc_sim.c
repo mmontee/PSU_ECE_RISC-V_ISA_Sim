@@ -8,6 +8,7 @@ input_params_t parse_args(int argc, char *argv[])
 	myParams.startAddress = DEFAULT_START_ADDRESS;
 	myParams.stackPointer = DEFAULT_STACK_ADDRESS;
 	myParams.inputFileType = 0;
+	myParams.inputSpaceCount = 2;
 
 	if(argc <= 1)
 	{
@@ -40,6 +41,11 @@ input_params_t parse_args(int argc, char *argv[])
 				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
 				printf("Input File Type = %d\n", myParams.inputFileType);
 			}
+			else if(strcmp(temp, "-sp") == 0)
+			{
+				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
+				printf("Input File Type = %d\n", myParams.inputSpaceCount);
+			}
 			count++;
 		}
 	}
@@ -68,7 +74,7 @@ memory_t parse_input(input_params_t *input)
 				peekChar = line[count];
             }
             // Now copy the 8 byte word into memory 1 byte at a time
-            count += 2; // Jump past the ': '
+            count += input->inputSpaceCount; // Jump past the ': '
             for(int i = 6; i >= 0; i-=2)
             {
 				char byteString[3] = {0, 0, '\0'};

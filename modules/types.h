@@ -37,6 +37,7 @@ typedef struct
 	uint32_t startAddress;
 	uint32_t stackPointer;
 	uint32_t inputFileType;
+    uint32_t inputSpaceCount;
 } input_params_t;
 
 #endif

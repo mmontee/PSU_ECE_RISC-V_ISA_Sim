@@ -21,13 +21,14 @@ Run time argument flags.
 Default values are assumed when argument is absent.
 
 -f <input file path> 
--s <stack Address>
--a <starting address> -- Word address
--ft <input file type>  -- 0 = seqential index, -ft 1 = word address index
+-s <stack Address> -- Starting stack address(Default = 65535)
+-a <starting address> -- Word address(Default = 0)
+-ft <input file type>  -- 0 = seqential index, -ft 1 = word address index(Default = 0)
+-sp <input file spaces> -- The number of spaces folling the colon(Default = 2)
 
 Example:
 
-$ ./<app name> -f ./test_input.dat -s 128 -a 4096 
+$ ./<app name> -f ./test_input.dat -s 65535 -a 0 
 ```
 
 ![Alt text](docs/main_map.png)
