@@ -245,16 +245,26 @@ void lhu(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 
 void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    if(instruction->imm & 0x800)
-    {
-        instruction->imm |= 0xFFFFF000;
+   // **Sign-extend the 12-bit immediate**
+    int32_t imm = (int32_t)(instruction->imm);
+    if (imm & (1 << 11)) {  
+        imm |= 0xFFFFF000;  // Extend sign to upper 20 bits
     }
-    uint32_t temp = *(programCounter) + 4;
-    *(programCounter) = ((registers[instruction->rs1] + (int32_t)instruction->imm) & ~1) - 4; // The - 4 counters the PC + 4 in the main loop
-    registers[instruction->rd] = temp;
+
+    uint32_t return_address = *(programCounter) + 4;  // Save return address (PC + 4)
+
+    // **Compute target address and ensure LSB is 0 (per RISC-V spec)**
+    *(programCounter) = (registers[instruction->rs1] + imm) & ~1;
+
+    // **Store return address in rd (if not x0)**
+    if (instruction->rd != 0) {  
+        registers[instruction->rd] = return_address;
+    }
+
     #ifdef DEBUG
-        printf("Executed JALR: rd=%u, rs1=%u, imm=%d, newPC=0x%08x\n", instruction->rd, instruction->rs1, instruction->imm, *(programCounter));
+        printf("Executed JALR: rd=%u, rs1=%u, imm=%d (signed:%d), newPC=0x%08x\n", instruction->rd, instruction->rs1, instruction->imm,imm, *(programCounter));
     #endif
+    *(programCounter) -= 4;
 }
 
 void ebreak()
@@ -484,14 +494,20 @@ void auipc(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programC
 void jal(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     uint32_t return_address = *(programCounter) + 4; // Address after current instruction
-    *(programCounter) = *(programCounter) + instruction->imm; // Jump to target address
+    int32_t imm = instruction->imm;
+
+    if (imm & (1 << 19)) {  // If bit 19 (sign bit) is 1
+        imm |= 0xFFF00000;  // Sign-extend the upper 12 bits
+    }
+    
+    *(programCounter) = *(programCounter) + imm; // Jump to target address
     if (instruction->rd != 0) 
     { // Avoid writing to x0
-        registers[instruction->rd] = return_address - 4; // The - 4 counters the PC + 4 in the main loop
+        registers[instruction->rd] = return_address;
     }
     #ifdef DEBUG
-        printf("Executed JAL: rd=%u, imm=0x%08x, Targetaddress(PC) =0x%08x\n", return_address, instruction->imm, *(programCounter));
+        printf("Executed JAL: rd=%u, imm=0x%08x (signed: %d), Targetaddress(PC) =0x%08x\n", return_address, instruction->imm, imm,  *(programCounter));
     #endif
-    
+   *(programCounter) -= 4; 
 }
 
