@@ -11,7 +11,7 @@
 #define DEBUG
 
 hardware_t hardware;
-int main(int argc, char *argv[])
+int main()
 {
     hardware.programCounter = 0;
     hardware.registers[2] = 256;
