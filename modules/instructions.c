@@ -351,6 +351,11 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+
     if (rs1_value == rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -372,6 +377,11 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+
     if (rs1_value != rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -394,6 +404,11 @@ void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+
     if (rs1_value < rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -415,6 +430,12 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+
     if (rs1_value >= rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -437,6 +458,11 @@ void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+
     if ((uint32_t)rs1_value < (uint32_t)rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -459,6 +485,11 @@ void bgeu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
+    
     if ((uint32_t)rs1_value >= (uint32_t)rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
