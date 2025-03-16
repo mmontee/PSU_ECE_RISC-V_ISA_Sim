@@ -99,9 +99,14 @@ void and_r(decoded_instr_t *instruction, uint32_t *registers)
 //I-Type Instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 void addi(decoded_instr_t *instruction, uint32_t *registers) //rd = rs1 + imm
 {
-        registers[instruction->rd] = registers[instruction->rs1] + instruction->imm;
+	int32_t imm = instruction->imm; // Start with the immediate value
+
+	if (imm & (1 << 11)) {  // Check if the 12th bit (sign bit) is set
+    		imm |= 0xFFFFF000;  // Extend sign to upper 20 bits
+	}
+        registers[instruction->rd] = registers[instruction->rs1] + imm;
         #ifdef DEBUG
-            printf("Executed ADDI: rd=%u, rs1=%u, imm=%u, Result=%u\n", instruction->rd, instruction->rs1, instruction->imm, registers[instruction->rd]);
+            printf("Executed ADDI: rd=%u, rs1=%u, imm=%d, Result=%d\n", instruction->rd, instruction->rs1, imm, registers[instruction->rd]);
         #endif
 }
 
