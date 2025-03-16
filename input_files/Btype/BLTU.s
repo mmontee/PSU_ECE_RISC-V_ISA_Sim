@@ -10,6 +10,4 @@ _start:
     li x7, -1  # Fail case
 bltu_pass:
     li x7, 5  # Success
-
     li a7, 10
-    # ecall

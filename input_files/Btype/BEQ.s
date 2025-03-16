@@ -8,3 +8,4 @@ main:
 label:
     li x3, 0  # Expected execution
     jr ra
+
