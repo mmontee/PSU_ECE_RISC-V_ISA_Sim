@@ -117,7 +117,7 @@ void slti(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?
     if (imm & (1 << 11)) {
         imm |= 0xFFFFF000;
     }
-    registers[instruction->rd] = (registers[instruction->rs1] < imm) ? 1 : 0;
+    registers[instruction->rd] = ((int32_t)registers[instruction->rs1] < imm) ? 1 : 0;
     #ifdef DEBUG
         printf("Executed SLTI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
     #endif
