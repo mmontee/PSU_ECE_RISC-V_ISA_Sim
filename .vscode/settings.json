@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "risc_sim.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/home/ria/ece486/PSU_ECE_RISC-V_ISA_Sim/riscv-gnu-toolchain/binutils/zlib"
 }
