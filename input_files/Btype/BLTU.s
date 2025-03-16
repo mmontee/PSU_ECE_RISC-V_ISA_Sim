@@ -12,4 +12,4 @@ bltu_pass:
     li x7, 5  # Success
 
     li a7, 10
-    //ecall
+    # ecall

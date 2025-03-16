@@ -12,4 +12,4 @@ blt_pass:
     li x7, 3  # Success
 
     li a7, 10
-   // ecall
+   # ecall

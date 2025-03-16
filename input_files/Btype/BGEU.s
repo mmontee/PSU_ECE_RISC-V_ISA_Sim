@@ -12,4 +12,4 @@ bgeu_pass:
     li x7, 6  # Success
 
     li a7, 10
-    //ecall
+    # ecall
