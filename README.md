@@ -24,7 +24,7 @@ Default values are assumed when argument is absent.
 -s <stack Address> -- Starting stack address(Default = 65535)
 -a <starting address> -- Word address(Default = 0)
 -ft <input file type>  -- 0 = seqential index, -ft 1 = word address index(Default = 0)
--sp <input file spaces> -- The number of spaces folling the colon(Default = 2)
+-sp <input file spaces> -- The number of spaces following the colon(Default = 2, assembler does 7)
 
 Example:
 
