@@ -9,7 +9,7 @@ decoded_instr_t decode_instruction(uint32_t instruction) {
     decoded.opcode = opcode;
 
     switch (opcode) {
-        case 0x33:  // read
+        case 0x33:  // R type
             
             decoded.funct7 = (instruction >> 25) & 0x7F;
             decoded.rs2 = (instruction >> 20) & 0x1F;

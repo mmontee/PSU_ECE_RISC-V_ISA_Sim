@@ -3,6 +3,7 @@ Functions related to instructions
 */
 #include "../modules/instructions.h"
 #define DEBUG
+#include <stdint.h>
 //R-type instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 // ADD: rd = rs1 + rs2
 void add(decoded_instr_t *instruction, uint32_t *registers)
@@ -384,7 +385,7 @@ void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 //Do we need to include the uint32_t *registers -note
 void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x800)
@@ -396,13 +397,13 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BEQ - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BEQ - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BEQ - NOT TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BEQ - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     
@@ -410,7 +411,7 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x800)
@@ -422,13 +423,13 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BNE - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BNE - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BNE - NOT TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BNE - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     
@@ -437,7 +438,7 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x800)
@@ -449,40 +450,41 @@ void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BLT - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLT - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BLT - NOT TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLT - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
 }
 
-
 void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
-    int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
+    int32_t rs2_value = (registers[instruction->rs2]); // vlue rs2 reg
+    //int32_t rs2 = instruction->rs2; // Start with the immediate value
 
-    if(instruction->imm & 0x800)
-    {
-        instruction->imm |= 0xFFFFF000;
-    }
+	/*if (rs2 & (1 << 5)) {  // Check if the 12th bit (sign bit) is set
+    		rs2 |= 0xFFFFFE00;  // Extend sign to upper 20 bits
+	}*/
 
-    if (rs1_value >= rs2_value) 
+    //if (rs1_value >= rs2_value) 
+    printf("%d", rs2_value);
+    if(rs1_value >= rs2_value)
     {
-        *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
+        *(programCounter)  = *(programCounter)  + (instruction->imm << 1) - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BGE - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BGE - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value , rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BGE - NOT TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BGE - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, registers[instruction->rs2], *(programCounter)  + (instruction->imm << 1));
         #endif
     }
 
@@ -491,7 +493,7 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x800)
@@ -503,13 +505,13 @@ void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BLTU - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLTU - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BLTU - NOT TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLTU - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
 
@@ -518,7 +520,7 @@ void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
 
 void bgeu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x800)
@@ -530,13 +532,13 @@ void bgeu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BGEU - TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BGEU - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BGEU - NOT TAKEN: rs1=%u, rs2=%u, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BGEU - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
         #endif
     }
 
@@ -576,7 +578,7 @@ void auipc(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programC
 void jal(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     uint32_t return_address = *(programCounter) + 4; // Address after current instruction
-    int32_t imm = instruction->imm;
+    uint32_t imm = instruction->imm;
 
     if (imm & (1 << 19)) {  // If bit 19 (sign bit) is 1
         imm |= 0xFFF00000;  // Sign-extend the upper 12 bits
