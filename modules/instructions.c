@@ -397,13 +397,13 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BEQ - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BEQ - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BEQ - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BEQ - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     
@@ -423,13 +423,13 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BNE - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BNE - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BNE - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BNE - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     
@@ -450,13 +450,13 @@ void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BLT - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLT - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BLT - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLT - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
 }
@@ -505,13 +505,13 @@ void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BLTU - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLTU - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BLTU - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLTU - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
 
@@ -532,13 +532,13 @@ void bgeu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BGEU - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BGEU - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
     else
     {
         #ifdef DEBUG
-            printf("Executed BGEU - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x", rs1_value, rs2_value, targetAddress);
+            printf("Executed BGEU - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
 
