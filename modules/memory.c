@@ -2,6 +2,7 @@
 Functions related to reading and writing from memory
 */
 #include "../modules/memory.h"
+#include "../modules/types.h"
 
 // Returns a 32bit where the lower byte are the requested
 // sign_extend = 0 for no sign extension.
@@ -27,6 +28,8 @@ uint32_t read_memory(uint32_t address, int sign_extend, memory_t *programMemory,
             {
                 printf("un-aligned reference on 4 byte read\n");
                 exit(EXIT_FAILURE);
+               //*programCounter = (*programCounter + 3) & ~3;  // Round up to the nearest multiple of 4
+                //printf("Adjusted Program Counter to 0x%08x\n", *programCounter);
             }
             break;
         default:
