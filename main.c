@@ -97,19 +97,11 @@ int main(int argc, char *argv[])
         // Will need to jump over this is a new PC in created by instruction(currently handled by - 4 on execution)
         hardware.programCounter += 4;
         
-        
- /*       // This will be removed once we can decode the "jmp ra=0" halt instruction
-        if(currentInstruction == 0x00000000)
-        {
-            decodedInstruction.halt = 1;
-            printf("Halt\n");
-        }
-        
+             
         #ifdef STEP
             printf("\nPress Return to step to PC = 0x%08x\n", hardware.programCounter);
             getchar(); // This is the key part!  Blocks until a key is pressed.
         #endif
-     */   
     }
 
     printf("\n-----PROGRAM HALT------\n");

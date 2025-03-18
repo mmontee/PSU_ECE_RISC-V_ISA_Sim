@@ -28,7 +28,7 @@ Default values are assumed when argument is absent.
 
 Example:
 
-$ ./main-f ./test_input.dat
+$ ./main -f ./test_input.dat
 ```
 
 ![Alt text](docs/main_map.png)
