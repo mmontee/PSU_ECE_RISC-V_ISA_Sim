@@ -364,10 +364,17 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
         imm |= 0xFFFFF000;  // Extend sign to upper 20 bits
     }
 
+
     uint32_t return_address = *(programCounter) + 4;  // Save return address (PC + 4)
 
     // **Compute target address and ensure LSB is 0 (per RISC-V spec)**
     *(programCounter) = (registers[instruction->rs1] + imm) & ~1;
+
+    if (instruction->rd == 0 && imm == 0) {
+        printf("Halt condition met: JALR x0, 0\n");
+        instruction->halt = 1; 
+        return;
+    }
 
     // **Store return address in rd (if not x0)**
     if (instruction->rd != 0) {  
@@ -456,7 +463,7 @@ void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 
 
 //B-Type Instructions ------------------------------------------------------------------------------------------------------------------------------------------------
-//Do we need to include the uint32_t *registers -note
+
 void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
@@ -512,21 +519,24 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    //int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
-   // if(instruction->imm & 0x800)
-   // {
-   //     instruction->imm |= 0xFFFFF000;
-   // }
+    if(instruction->imm & 0x1000)
+    {
+        instruction->imm |= 0xFFFFE000;
+    }
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
    printf("Current Program Counter (PC): 0x%08x\n", *programCounter);
-
-    printf("%08x", instruction->imm << 1);
+   printf("%08x\n", instruction->imm);
+    printf("%08x\n", instruction->imm << 1);
+    printf("%08x\n", targetAddress);
+    printf("%08x\n", targetAddress-4);
     if (rs1_value < rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
-            printf("Executed BLT - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
+            printf("Executed BLT - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, *programCounter);
         #endif
     }
     else
@@ -665,9 +675,12 @@ void jal(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     }
     
     *(programCounter) = *(programCounter) + imm; // Jump to target address
+
+
     if (instruction->rd != 0) 
     { // Avoid writing to x0
         registers[instruction->rd] = return_address;
+    
     }
     #ifdef DEBUG
         printf("Executed JAL: rd=%u, imm=0x%08x (signed: %d), Targetaddress(PC) =0x%08x\n", return_address, imm, imm,  *(programCounter));

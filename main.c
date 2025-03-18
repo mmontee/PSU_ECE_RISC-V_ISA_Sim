@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     hardware.registers[0] = 0;
      
 
-    
+    uint32_t oldPC = hardware.programCounter;
     decoded_instr_t decodedInstruction;
     decodedInstruction.halt = 0;
     // While the machine is not halted fetch inctructions and incrment the PC
@@ -97,6 +97,7 @@ int main(int argc, char *argv[])
                             
         // Will need to jump over this is a new PC in created by instruction(currently handled by - 4 on execution)
         hardware.programCounter += 4;
+        
         
         // This will be removed once we can decode the "jmp ra=0" halt instruction
         if(currentInstruction == 0x00000000)

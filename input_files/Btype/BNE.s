@@ -7,4 +7,4 @@ main:
     li x3, 1  # Should be skipped
 label:
     li x3, 0  # Expected execution
-    jr ra
+    jalr x0, 0(ra)

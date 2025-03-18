@@ -49,7 +49,7 @@ decoded_instr_t decode_instruction(uint32_t instruction) {
 
         case 0x63:  // branch
            
-            decoded.imm = (((instruction >> 31) & 0x1) << 12) | (((instruction >> 7) & 0x1F) << 5) | (((instruction >> 25) & 0x3F) << 1) | (((instruction >> 8) & 0x1) << 11);
+            decoded.imm = (((instruction >> 31) & 0x1) << 12) | (((instruction >> 25) & 0x3F) << 5) | (((instruction >> 8) & 0xF) << 1) | (((instruction >> 7) & 0x1) << 11);
             decoded.rs2 = (instruction >> 20) & 0x1F;
             decoded.rs1 = (instruction >> 15) & 0x1F;
             decoded.funct3 = (instruction >> 12) & 0x7;

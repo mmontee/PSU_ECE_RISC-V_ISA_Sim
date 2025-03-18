@@ -54,4 +54,4 @@ bgeu_taken:
 
     # Halt execution
     li a7, 10
-    ecall
+    jalr x0, 0(ra)
