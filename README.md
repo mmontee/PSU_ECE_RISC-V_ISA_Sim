@@ -28,7 +28,7 @@ Default values are assumed when argument is absent.
 
 Example:
 
-$ ./<app name> -f ./test_input.dat -s 65535 -a 0 
+$ ./main-f ./test_input.dat
 ```
 
 ![Alt text](docs/main_map.png)

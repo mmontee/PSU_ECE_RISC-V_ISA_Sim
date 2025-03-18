@@ -466,7 +466,6 @@ void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 
 void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-   
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x1000)
@@ -492,7 +491,6 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x1000)
@@ -519,7 +517,6 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-    
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
     if(instruction->imm & 0x1000)
@@ -549,7 +546,6 @@ void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
-   
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = (registers[instruction->rs2]); // vlue rs2 reg
     
