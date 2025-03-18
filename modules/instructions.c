@@ -441,11 +441,13 @@ void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
-    if(instruction->imm & 0x800)
-    {
-        instruction->imm |= 0xFFFFF000;
-    }
+   // if(instruction->imm & 0x800)
+   // {
+   //     instruction->imm |= 0xFFFFF000;
+   // }
+   printf("Current Program Counter (PC): 0x%08x\n", *programCounter);
 
+    printf("%08x", instruction->imm << 1);
     if (rs1_value < rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -466,17 +468,15 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     uint32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = (registers[instruction->rs2]); // vlue rs2 reg
-    //int32_t rs2 = instruction->rs2; // Start with the immediate value
+    
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
+    }
 
-	/*if (rs2 & (1 << 5)) {  // Check if the 12th bit (sign bit) is set
-    		rs2 |= 0xFFFFFE00;  // Extend sign to upper 20 bits
-	}*/
-
-    //if (rs1_value >= rs2_value) 
-    printf("%d", rs2_value);
     if(rs1_value >= rs2_value)
     {
-        *(programCounter)  = *(programCounter)  + (instruction->imm << 1) - 4; // The - 4 counters the PC + 4 in the main loop
+        *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
         #ifdef DEBUG
             printf("Executed BGE - TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value , rs2_value, targetAddress);
         #endif
@@ -484,7 +484,7 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     else
     {
         #ifdef DEBUG
-            printf("Executed BGE - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, registers[instruction->rs2], *(programCounter)  + (instruction->imm << 1));
+            printf("Executed BGE - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
 
