@@ -590,7 +590,7 @@ void jal(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
         registers[instruction->rd] = return_address;
     }
     #ifdef DEBUG
-        printf("Executed JAL: rd=%u, imm=0x%08x (signed: %d), Targetaddress(PC) =0x%08x\n", return_address, instruction->imm, imm,  *(programCounter));
+        printf("Executed JAL: rd=%u, imm=0x%08x (signed: %d), Targetaddress(PC) =0x%08x\n", return_address, imm, imm,  *(programCounter));
     #endif
    *(programCounter) -= 4; 
 }
