@@ -4,12 +4,12 @@
 _start:
     # Test JAL - Jump and Link
     jal x1, target1   # Jump to target1, store return address in x1
-    nop               # This should be skipped if JAL works
+    nop               
 
     # Test JALR - Jump and Link Register
     la x2, target2    # Load address of target2 into x2
     jalr x3, 0(x2)    # Jump to target2, store return address in x3
-    nop               # This should be skipped if JALR works
+    nop               
 
     # Test JALR with nonzero immediate
     la x6, target3    # Load address of target3 into x6
