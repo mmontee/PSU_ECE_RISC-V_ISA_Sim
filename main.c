@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
     hardware.registers[0] = 0;
      
 
-    uint32_t oldPC = hardware.programCounter;
     decoded_instr_t decodedInstruction;
     decodedInstruction.halt = 0;
     // While the machine is not halted fetch inctructions and incrment the PC
@@ -99,7 +98,7 @@ int main(int argc, char *argv[])
         hardware.programCounter += 4;
         
         
-        // This will be removed once we can decode the "jmp ra=0" halt instruction
+ /*       // This will be removed once we can decode the "jmp ra=0" halt instruction
         if(currentInstruction == 0x00000000)
         {
             decodedInstruction.halt = 1;
@@ -110,8 +109,9 @@ int main(int argc, char *argv[])
             printf("\nPress Return to step to PC = 0x%08x\n", hardware.programCounter);
             getchar(); // This is the key part!  Blocks until a key is pressed.
         #endif
-        
+     */   
     }
+
     printf("\n-----PROGRAM HALT------\n");
     // Print the final PC and registeres on the way out.
     printf("\nFinal PC Address = 0x%08X\n", hardware.programCounter - 4);
