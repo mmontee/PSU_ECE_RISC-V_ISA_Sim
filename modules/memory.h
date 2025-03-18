@@ -13,5 +13,6 @@ Functions related to reading and writing from memory
 uint32_t read_memory(uint32_t address, int sign_extend, memory_t *programMemory, uint8_t numBytes);
 
 void write_memory(uint32_t address, memory_t *programMemory, uint8_t numBytes, uint32_t value);
+
 #endif
 

@@ -29,15 +29,14 @@ int main(int argc, char *argv[])
     decodedInstruction.halt = 0;
     // While the machine is not halted fetch inctructions and incrment the PC
     while(decodedInstruction.halt == 0)
-    {
-        #ifdef VERBOSE
-            printf("\nPC Address = 0x%08X\n", hardware.programCounter);
-        #endif
-            
+    {           
         // fetch the current instruction
         uint32_t currentInstruction = read_memory(hardware.programCounter, 0, &hardware.programMemory, 4);
         #ifdef VERBOSE
+            printf("\n");
+            printf("\nPC Address = 0x%08X\n", hardware.programCounter);
             printf("Instruction Code = 0x%08X\n", currentInstruction);
+            printf("\n");
         #endif
         
         
@@ -77,18 +76,22 @@ int main(int argc, char *argv[])
         }
           
           
-        #ifdef VERBOSE          
+        #ifdef VERBOSE     
+            printf("\n");     
             for(int i = 0; i < 32; i++)
             {
                 print_bits(i, hardware.registers);
                 
             }
+            printf("\n");
         #endif  
-        #ifdef DEBUG          
+        #ifdef DEBUG  
+            printf("\n");        
             for(uint32_t i = 0; i < hardware.programMemory.instructionCount; i++)
             {
                 printf("memory address 0x%08X = 0x%08X\n", i * 4, read_memory(i * 4, 0, &hardware.programMemory, 4));
             }
+            printf("\n");
         #endif
             
                             
@@ -111,6 +114,7 @@ int main(int argc, char *argv[])
     printf("\n-----PROGRAM HALT------\n");
     // Print the final PC and registeres on the way out.
     printf("\nFinal PC Address = 0x%08X\n", hardware.programCounter - 4);
+    printf("\n");
     for(int i = 0; i < 32; i++)
     {
         print_bits(i, hardware.registers);

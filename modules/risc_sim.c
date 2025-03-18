@@ -130,7 +130,69 @@ memory_t parse_input(input_params_t *input)
 void print_bits(uint32_t reg, uint32_t registers[])
 {
 	uint32_t localReg = registers[reg];
-	printf("REG x%02d = 0x%08X = ", reg, localReg);
+	switch(reg)
+	{
+		case 0:
+			printf("Zero Constant \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 1:
+			printf("Return Address \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 2:
+			printf("Stack Pointer \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 3:
+			printf("Global Pointer \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 4:
+			printf("Thread Pointer \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 5:
+		case 6:
+		case 7:
+			printf("Temporaries \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 8:
+			printf("Save Frame Pointer \t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 9:
+			printf("Saved Reg \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 10:
+		case 11:
+			printf("Fn args / Return vals \t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+			printf("Fn args \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
+			printf("Saved register \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		case 28:
+		case 29:
+		case 30:
+		case 31:
+			printf("Temporaries \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+		default:
+			printf("REG \t\t\tx%02d = 0x%08X = ", reg, localReg);
+			break;
+	}
+
 	for(int i = 0; i < 32; i++)
 	{
 		int temp = (localReg & (0x80000000 >> i))? 1: 0;

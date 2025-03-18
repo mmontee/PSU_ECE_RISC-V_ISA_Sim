@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include "../modules/types.h"
 #include "../modules/memory.h"
 #include "../modules/decode.h"
 #include "../modules/defines.h"
