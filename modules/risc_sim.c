@@ -1,4 +1,5 @@
 #include "../modules/risc_sim.h"
+#include <ctype.h>
 
 
 input_params_t parse_args(int argc, char *argv[])
@@ -52,79 +53,80 @@ input_params_t parse_args(int argc, char *argv[])
 	return myParams;
 }
 
-
 memory_t parse_input(input_params_t *input)
 {
-	memory_t programMemory;
+    memory_t programMemory;
     programMemory.instructionCount = 0;
-	programMemory.startAddress = input->startAddress;
-	char line[64];
-	if(input->inputFileType== 0)
-	{
-	    uint32_t index = 0;
-	    while (fgets(line, sizeof(line), input->inputFilePath) != NULL)
-	    {
-            // Following the ':' is the command, find the ':'
-            int count = 0;
-            char peekChar;
-            peekChar = line[count];
-            while(peekChar != ':')
-            {
-				count++;
-				peekChar = line[count];
-            }
-            // Now copy the 8 byte word into memory 1 byte at a time
-            count += input->inputSpaceCount; // Jump past the ': '
-            for(int i = 6; i >= 0; i-=2)
-            {
-				char byteString[3] = {0, 0, '\0'};
-				memcpy(byteString, &line[count + i], 2);
-				programMemory.array[input->startAddress + index] = (int)strtol(byteString, NULL, 16);
-				index++;
-            }
-            	programMemory.instructionCount++;
-	    }
-	}
-	else
-	{
-		// Get a line from the file or fail trying
-		while (fgets(line, sizeof(line), input->inputFilePath) != NULL)
-		{
-			// Following the ':' is the command, find the ':'
-			int count = 0;
-			char peekChar;
-			peekChar = line[count];
-			while(peekChar != ':')
-			{
-				count++;
-				peekChar = line[count];
-			}
-			char addressString[count + 1];
-			int index = 0;
-			// the characters from 0 to count shoud be the address
-			memcpy(addressString, &line[0], count);
-			// the address from the inputfile is the baseAddress
-			uint32_t baseAddress = (int)strtol(addressString, NULL, 16);
-			// Check address for alignment
-			if(baseAddress % 4 != 0)
-			{
-				printf("un-aligned reference during input parseing. Address : 0x%08X\n", baseAddress);
-				exit(EXIT_FAILURE);
-			}
-			// Now copy the 8 byte word into memory 1 byte at a time
-			count += 2; // Jump past the ': '
+    programMemory.startAddress = input->startAddress;
+    char line[64];
 
-			for(int i = 6; i >= 0; i-=2)// Every two characters is a byte.
-			{
-				char byteString[3] = {0, 0, '\0'};
-				memcpy(byteString, &line[count + i], 2);
-				programMemory.array[programMemory.startAddress + baseAddress + index] = (uint8_t)strtol(byteString, NULL, 16);
-				index++;
-			}
-		    programMemory.instructionCount++;
-		}
-	}
-	return programMemory;
+    while (fgets(line, sizeof(line), input->inputFilePath) != NULL)
+    {
+        // Trim leading and trailing whitespace from the line
+        char *trimmedLine = line;
+        while (*trimmedLine == ' ' || *trimmedLine == '\t') trimmedLine++; // Skip leading spaces/tabs
+        char *end = trimmedLine + strlen(trimmedLine) - 1;
+        while (end > trimmedLine && (*end == '\n' || *end == '\r' || *end == ' ' || *end == '\t')) end--;
+        *(end + 1) = '\0'; // Null-terminate the trimmed line
+
+        // Find the ':' to locate the instruction
+        int count = 0;
+        while (trimmedLine[count] != ':' && trimmedLine[count] != '\0')
+        {
+            count++;
+        }
+
+        if (trimmedLine[count] != ':')
+        {
+            printf("Error: Invalid line format (missing ':')\n");
+            exit(EXIT_FAILURE);
+        }
+
+        // Extract the address from the line
+        char addressString[count + 1];
+        memcpy(addressString, trimmedLine, count);
+        addressString[count] = '\0';
+        uint32_t address = (int)strtol(addressString, NULL, 16);
+
+        // Jump past the ': ' to get to the instruction
+        count += input->inputFileType == 0 ? input->inputSpaceCount : 2;
+
+        // Determine the length of the instruction
+        int instructionLength = 0;
+        for (int i = count; trimmedLine[i] != '\0'; i += 2)
+        {
+            // Check if the characters are valid hexadecimal digits
+            if (!isxdigit(trimmedLine[i]) || !isxdigit(trimmedLine[i + 1]))
+            {
+                break; // Stop if non-hexadecimal characters are encountered
+            }
+            instructionLength += 2;
+        }
+
+        // Check if the instruction is longer than 8 characters
+        if (instructionLength > 8)
+        {
+            printf("Error: Instruction at address 0x%08X is longer than 8 characters (length: %d)\n", address, instructionLength);
+            exit(EXIT_FAILURE);
+        }
+
+        // Pad the instruction with zeros to make it 8 characters (4 bytes)
+        char paddedInstruction[9] = "00000000"; // Default padding
+        memcpy(paddedInstruction + (8 - instructionLength), &trimmedLine[count], instructionLength);
+
+        // Process the padded instruction (8 characters)
+        for (int i = 0; i < 8; i += 2)
+        {
+            char byteString[3] = {0, 0, '\0'};
+            // Reverse the byte order for big-endian storage
+            memcpy(byteString, &paddedInstruction[6 - i], 2);
+            programMemory.array[address + (i / 2)] = (uint8_t)strtol(byteString, NULL, 16);
+        }
+
+        programMemory.instructionCount++;
+    }
+
+    return programMemory;
 }
 
 void print_bits(uint32_t reg, uint32_t registers[])
