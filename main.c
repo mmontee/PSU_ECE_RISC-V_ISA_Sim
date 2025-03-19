@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 {
     // Read User arguments
     input_params_t userParams = parse_args(argc, argv);
-    hardware.programCounter = userParams.startAddress;
+    hardware.programCounter = 0;
     // Load input file into memory.
     
     hardware.programMemory = parse_input(&userParams);
