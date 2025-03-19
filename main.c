@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     
     hardware.programMemory = parse_input(&userParams);
     hardware.programMemory.startAddress = userParams.startAddress;
+    hardware.programCounter = userParams.startAddress;
     // init registers
     hardware.registers[2] = userParams.stackPointer;
     hardware.registers[1] = 0;
