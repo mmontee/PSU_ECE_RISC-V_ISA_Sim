@@ -33,7 +33,7 @@ input_params_t parse_args(int argc, char *argv[])
 			}
 			else if(strcmp(temp, "-a") == 0)
 			{
-				myParams.startAddress = strtoul(argv[count + 1], NULL, 0);
+				myParams.startAddress = strtoul(argv[count + 1], NULL, 16);
 				printf("Start Address = %d\n", myParams.startAddress);
 			}
 			else if(strcmp(temp, "-ft") == 0)
@@ -52,7 +52,7 @@ input_params_t parse_args(int argc, char *argv[])
 	return myParams;
 }
 
-
+/*
 memory_t parse_input(input_params_t *input)
 {
 	memory_t programMemory;
@@ -126,6 +126,59 @@ memory_t parse_input(input_params_t *input)
 	}
 	return programMemory;
 }
+*/
+
+memory_t parse_input(input_params_t *input)
+{
+	memory_t programMemory;
+    programMemory.instructionCount = 0;
+	programMemory.startAddress = input->startAddress;
+
+	char line[100];
+	char address[10];
+	char data[20];
+	while (fgets(line, sizeof(line), input->inputFilePath) != NULL) {
+		char *colon = strchr(line, ':');
+		if (colon != NULL) {
+			int addressLength = colon - line;
+			strncpy(address, line, addressLength);
+			address[addressLength] = '\0';
+			uint32_t baseAddress = (int)strtol(address, NULL, 16);
+			colon++;
+			while (*colon == ' ' || *colon == '\t') {
+				colon++;
+			}
+			strcpy(data, colon);
+			data[strcspn(data, "\n")] = 0;
+			uint8_t length = strlen(data) - 1;
+			#ifdef DEBUG 
+				printf("length = %d\n", length);
+			#endif 
+			if(length == 4)
+			{
+				write_memory(baseAddress, programMemory.array, 2, (int)strtol(data, NULL, 16));
+	
+			}
+			else
+			{
+				write_memory(baseAddress, programMemory.array, 4, (int)strtol(data, NULL, 16));
+			} 
+        	#ifdef DEBUG  
+				printf("Address: %s, Data: %s\n", address, data);
+				#endif 
+		}
+		programMemory.instructionCount++;
+	}
+                        
+
+		    
+		
+	return programMemory;
+}
+
+
+
+
 
 void print_bits(uint32_t reg, uint32_t registers[])
 {

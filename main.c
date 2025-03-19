@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     input_params_t userParams = parse_args(argc, argv);
     hardware.programCounter = userParams.startAddress;
     // Load input file into memory.
+    
     hardware.programMemory = parse_input(&userParams);
     hardware.programMemory.startAddress = userParams.startAddress;
     // init registers
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
     hardware.registers[1] = 0;
     hardware.registers[0] = 0;
      
-
+    
     decoded_instr_t decodedInstruction;
     decodedInstruction.halt = 0;
     // While the machine is not halted fetch inctructions and incrment the PC
