@@ -37,11 +37,6 @@ input_params_t parse_args(int argc, char *argv[])
 				myParams.startAddress = strtoul(argv[count + 1], NULL, 16);
 				printf("Start Address = %d\n", myParams.startAddress);
 			}
-			else if(strcmp(temp, "-ft") == 0)
-			{
-				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
-				printf("Input File Type = %d\n", myParams.inputFileType);
-			}
 			else if(strcmp(temp, "-sp") == 0)
 			{
 				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
@@ -82,27 +77,22 @@ memory_t parse_input(input_params_t *input)
 			#endif 
 			if(length == 4)
 			{
-				write_memory(baseAddress, programMemory.array, 2, (int)strtol(data, NULL, 16));
+				write_memory(baseAddress, &programMemory, 2, (int)strtol(data, NULL, 16));
 	
 			}
 			else
 			{
-				write_memory(baseAddress, programMemory.array, 4, (int)strtol(data, NULL, 16));
+				write_memory(baseAddress, &programMemory, 4, (int)strtol(data, NULL, 16));
 			} 
         	#ifdef DEBUG  
 				printf("Address: %s, Data: %s\n", address, data);
-				#endif 
+			#endif 
+			programMemory.instructionCount++;
 		}
-		programMemory.instructionCount++;
-	}
-                        
-
-		    
 		
+	}	
 	return programMemory;
 }
-
-
 
 
 
