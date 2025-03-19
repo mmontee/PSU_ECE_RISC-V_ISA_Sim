@@ -382,8 +382,9 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
         printf("Executed JALR: rd=%u, rs1=%u, imm=0x%08x (signed:%d), newPC=0x%08x\n", instruction->rd, instruction->rs1,imm,imm, *(programCounter));
     #endif
 
-   if (*(programCounter) == 0x0) {
-        printf("Halt condition met: JALR NEW PC: 0x0\n");
+   // **Halt condition if return address (ra) is 0
+    if (registers[1] == 0) { 
+        printf("Halt condition met: Return address (ra) is 0\n");
         instruction->halt = 1;
         return;
     }
