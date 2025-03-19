@@ -37,11 +37,6 @@ input_params_t parse_args(int argc, char *argv[])
 				myParams.startAddress = strtoul(argv[count + 1], NULL, 16);
 				printf("Start Address = %d\n", myParams.startAddress);
 			}
-			else if(strcmp(temp, "-sp") == 0)
-			{
-				myParams.inputFileType = strtoul(argv[count + 1], NULL, 0);
-				printf("Input File Type = %d\n", myParams.inputSpaceCount);
-			}
 			count++;
 		}
 	}

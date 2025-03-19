@@ -23,7 +23,6 @@ Default values are assumed when argument is absent.
 -f <input file path> 
 -s <stack Address> -- Starting stack address(Default = 65535)
 -a <starting address> -- Word address(Default = 0)
--sp <input file spaces> -- The number of spaces following the colon(Default = 2, assembler does 7)
 
 Example:
 
