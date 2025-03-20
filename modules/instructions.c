@@ -129,151 +129,133 @@ void and_r(decoded_instr_t *instruction, uint32_t *registers)
 //I-Type Instructions -----------------------------------------------------------------------------------------------------------------------------------------------
 void addi(decoded_instr_t *instruction, uint32_t *registers) //rd = rs1 + imm
 {
-	int32_t imm = instruction->imm; // Start with the immediate value
-
-	if (imm & (1 << 11)) {  // Check if the 12th bit (sign bit) is set
-    		imm |= 0xFFFFF000;  // Extend sign to upper 20 bits
-	}
+	if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
+    }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = registers[instruction->rs1] + imm;
+        registers[instruction->rd] = registers[instruction->rs1] + instruction->imm;
     }
         #ifdef DEBUG
-            printf("Executed ADDI: rd=%u, rs1=%u, imm=%d, Result=%d\n", instruction->rd, instruction->rs1, imm, registers[instruction->rd]);
+            printf("Executed ADDI: rd=%u, rs1=%u, imm=%d, Result=%d\n", instruction->rd, instruction->rs1, instruction->imm, registers[instruction->rd]);
         #endif
 }
 
 void slti(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?1:0
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = ((int32_t)registers[instruction->rs1] < imm) ? 1 : 0;
+        registers[instruction->rd] = (registers[instruction->rs1] < instruction->imm) ? 1 : 0;
     }
     #ifdef DEBUG
-        printf("Executed SLTI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed SLTI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void sltiu(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?1:0 zero extends
 {
-    uint32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
-    }
-
+    uint32_t imm = (uint32_t)(instruction->imm & 0xFFF); // Ensure zero extension
     if(instruction->rd != 0)
-
     {
         registers[instruction->rd] = (registers[instruction->rs1] < imm) ? 1 : 0;
     }
-
     #ifdef DEBUG
-
-
-        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%u\n", instruction->rd, instruction->rs1, imm);
-
+        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%u\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void xori(decoded_instr_t *instruction, uint32_t *registers) //rd = rs1 ^ imm
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = registers[instruction->rs1] ^ imm;
+        registers[instruction->rd] = registers[instruction->rs1] ^ instruction->imm;
     }
     #ifdef DEBUG
-        printf("Executed XORI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed XORI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void ori(decoded_instr_t *instruction, uint32_t *registers) //rd = rs1 | imm
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = registers[instruction->rs1] | imm;
+        registers[instruction->rd] = registers[instruction->rs1] | instruction->imm;
     }
     #ifdef DEBUG
-        printf("Executed ORI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed ORI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void andi(decoded_instr_t *instruction, uint32_t *registers) //rd = rs1 & imm
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = registers[instruction->rs1] & imm;
+        registers[instruction->rd] = registers[instruction->rs1] & instruction->imm;
     }
     #ifdef DEBUG
-        printf("Executed ANDI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed ANDI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void slli(decoded_instr_t *instruction, uint32_t *registers)
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = registers[instruction->rs1] << (imm & 0x1F);
+        registers[instruction->rd] = registers[instruction->rs1] << (instruction->imm & 0x1F);
     }
     #ifdef DEBUG
-        printf("Executed SLLI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed SLLI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void srli(decoded_instr_t *instruction, uint32_t *registers)
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = registers[instruction->rs1] >> (imm & 0x1F);
+        registers[instruction->rd] = registers[instruction->rs1] >> (instruction->imm & 0x1F);
     }
     #ifdef DEBUG
-        printf("Executed SRLI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed SRLI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
 void srai(decoded_instr_t *instruction, uint32_t *registers)
 {
-    int32_t imm = instruction->imm;
-
-    if (imm & (1 << 11)) {
-        imm |= 0xFFFFF000;
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;;
     }
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = (int32_t)registers[instruction->rs1] >> (imm & 0x1F);
+        registers[instruction->rd] = (int32_t)registers[instruction->rs1] >> (instruction->imm & 0x1F);
     }
     #ifdef DEBUG
-        printf("Executed SRAI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed SRAI: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, instruction->imm);
     #endif
 }
 
@@ -287,7 +269,7 @@ printf("\nin lb imm = 0x%X\n", instruction->imm);
         instruction->imm |= 0xFFFFF000;
     }
 
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; // This should be the byte address -note
+    uint32_t address = registers[instruction->rs1] + instruction->imm; // This should be the byte address -note
     if(instruction->rd != 0)
     {
         registers[instruction->rd] = read_memory(address, 1, memory, 1);  // Sign-extended
@@ -304,7 +286,7 @@ void lh(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; // This should be the word address -note
+    uint32_t address = registers[instruction->rs1] + instruction->imm; // This should be the word address -note
     if(instruction->rd != 0)
     {
         registers[instruction->rd] = read_memory(address, 1, memory, 2);   // Sign-extended    
@@ -321,7 +303,7 @@ void lw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm;
+    uint32_t address = registers[instruction->rs1] + instruction->imm;
     if(instruction->rd != 0)
     {
         registers[instruction->rd] = read_memory(address, 0, memory, 4);
@@ -338,7 +320,7 @@ void lbu(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm;
+    uint32_t address = registers[instruction->rs1] + instruction->imm;
     if(instruction->rd != 0)
     {
         registers[instruction->rd] = read_memory(address, 0, memory, 1);  // Zero-extended
@@ -355,7 +337,7 @@ void lhu(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm;
+    uint32_t address = registers[instruction->rs1] + instruction->imm;
     if(instruction->rd != 0)
     {
         registers[instruction->rd] = read_memory(address, 0, memory, 2);  // Zero-extended
@@ -370,15 +352,16 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
 {
    // **Sign-extend the 12-bit immediate**
     int32_t imm = (int32_t)(instruction->imm);
-    if (imm & (1 << 11)) {  
-        imm |= 0xFFFFF000;  // Extend sign to upper 20 bits
+    if(instruction->imm & 0x800)
+    {
+        instruction->imm |= 0xFFFFF000;
     }
 
 
     uint32_t return_address = *(programCounter) + 4;  // Save return address (PC + 4)
 
     // **Compute target address and ensure LSB is 0 (per RISC-V spec)**
-    *(programCounter) = ((registers[instruction->rs1] + imm) & ~1);
+    *(programCounter) = ((registers[instruction->rs1] + instruction->imm) & ~1);
 
     // **Store return address in rd (if not x0)**
     if (instruction->rd != 0) {  
@@ -392,9 +375,8 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
         printf("Executed JALR: rd=%u, rs1=%u, imm=0x%08x (signed:%d), newPC=0x%08x\n", instruction->rd, instruction->rs1,imm,imm, *(programCounter));
     #endif
 
-   // **Halt condition if return address (ra) is 0
-    if (registers[1] == 0) { 
-        printf("Halt condition met: Return address (ra) is 0\n");
+   if (*(programCounter) == 0x0) {
+        printf("Halt condition met: JALR NEW PC: 0x0\n");
         instruction->halt = 1;
         return;
     }
@@ -433,7 +415,7 @@ void sb(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; // This should be the byte address -note
+    uint32_t address = registers[instruction->rs1] + instruction->imm; // This should be the byte address -note
     uint32_t value = 0;
     value = (registers[instruction->rs2] & 0xFF); // Store the lower 8 bits
     
@@ -449,7 +431,7 @@ void sh(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; 
+    uint32_t address = registers[instruction->rs1] + instruction->imm; 
     uint32_t value = 0;
     value = (registers[instruction->rs2] & 0x0000FFFF); // Store the lower 16 bits
     
@@ -465,7 +447,7 @@ void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     {
         instruction->imm |= 0xFFFFF000;
     }
-    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; 
+    uint32_t address = registers[instruction->rs1] + instruction->imm; 
     
     #ifdef DEBUG
         printf("Executed SW:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction->rs1, instruction->rs2, address, instruction->rs2);
@@ -480,11 +462,11 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 {
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
-    if(instruction->imm & 0x1000)
+    if(instruction->imm & 0x800)
     {
-        instruction->imm |= 0xFFFFE000;
+        instruction->imm |= 0xFFFFF000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     if (rs1_value == rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -498,18 +480,17 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
             printf("Executed BEQ - NOT TAKEN: rs1=%d, rs2=%d, targetAddress=0x%08x\n", rs1_value, rs2_value, targetAddress);
         #endif
     }
-    
 }
 
 void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
-    if(instruction->imm & 0x1000)
+    if(instruction->imm & 0x800)
     {
-        instruction->imm |= 0xFFFFE000;
+        instruction->imm |= 0xFFFFF000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     if (rs1_value != rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -526,16 +507,15 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     
 }
 
-
 void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = registers[instruction->rs2]; // vlue rs2 reg
-    if(instruction->imm & 0x1000)
+    if(instruction->imm & 0x800)
     {
-        instruction->imm |= 0xFFFFE000;
+        instruction->imm |= 0xFFFFF000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
    printf("Current Program Counter (PC): 0x%08x\n", *programCounter);
    printf("%08x\n", instruction->imm);
     printf("%08x\n", instruction->imm << 1);
@@ -561,11 +541,11 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
     int32_t rs2_value = (registers[instruction->rs2]); // vlue rs2 reg
     
-    if(instruction->imm & 0x1000)
+    if(instruction->imm & 0x800)
     {
-        instruction->imm |= 0xFFFFE000;
+        instruction->imm |= 0xFFFFF000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     if(rs1_value >= rs2_value)
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -582,7 +562,6 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
 
 }
 
-
 void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     int32_t rs1_value = registers[instruction->rs1]; // vbalue rs1 reg
@@ -591,7 +570,7 @@ void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     if ((uint32_t)rs1_value < (uint32_t)rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -617,7 +596,7 @@ void bgeu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
     
     if ((uint32_t)rs1_value >= (uint32_t)rs2_value) 
     {
@@ -694,4 +673,3 @@ void jal(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     #endif
    *(programCounter) -= 4; 
 }
-

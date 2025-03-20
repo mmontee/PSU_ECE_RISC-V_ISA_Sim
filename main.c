@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
             }
             printf("\n");
         #endif  
+        /*
         #ifdef DEBUG  
             printf("\n");        
             for(uint32_t i = 0; i < hardware.programMemory.instructionCount; i++)
@@ -94,7 +95,7 @@ int main(int argc, char *argv[])
             }
             printf("\n");
         #endif
-            
+            */
                             
         // Will need to jump over this is a new PC in created by instruction(currently handled by - 4 on execution)
         hardware.programCounter += 4;
