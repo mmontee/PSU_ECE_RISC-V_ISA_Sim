@@ -161,13 +161,13 @@ void slti(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?
 
 void sltiu(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?1:0 zero extends
 {
-    uint32_t imm = (uint32_t)(instruction->imm & 0xFFF); // Ensure zero extension
+    int32_t imm = (int32_t)(instruction->imm << 20) >> 20; // Correct sign-extension for 12-bit immediate
     if(instruction->rd != 0)
     {
-        registers[instruction->rd] = (registers[instruction->rs1] < imm) ? 1 : 0;
+        registers[instruction->rd] = (registers[instruction->rs1] < (uint32_t)imm) ? 1 : 0;
     }
     #ifdef DEBUG
-        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%u\n", instruction->rd, instruction->rs1, imm);
+        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
     #endif
 }
 
