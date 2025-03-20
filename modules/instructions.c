@@ -392,7 +392,7 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     #endif
 
    // **Halt condition if return address (ra) is 0
-    if (registers[1] == 0) { 
+    if ( *(programCounter) == 0) { 
         printf("Halt condition met: Return address (ra) is 0\n");
         instruction->halt = 1;
         return;
