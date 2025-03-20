@@ -41,7 +41,6 @@ uint32_t read_memory(uint32_t address, int sign_extend, memory_t *programMemory,
     for(int i = 0; i < numBytes; i++)
     {
         uint32_t byte = programMemory->array[programMemory->startAddress + address + i];
-        printf("loading  0x%X at 0x%X\n", byte, programMemory->startAddress + address + i);
         rtrnVal = rtrnVal | (byte << (i * 8));
     }
     // Sign extension
@@ -97,7 +96,8 @@ void write_memory(uint32_t address, memory_t *programMemory, uint8_t numBytes, u
     //Write Value
     for(int i = 0; i < numBytes; i++)
     {
-        programMemory->array[programMemory->startAddress + address + i] = (value >> i * 8);
-        printf("plaing 0x%X at 0x%X\n", (value >> i * 8), programMemory->startAddress + address + i);
+	programMemory->array[programMemory->startAddress + address + i] = (value >> (i * 8)) & 0xFF;
+	//programMemory->array[programMemory->startAddress + address + i] = (value >> i * 8);
+        printf("Placing 0x%X at 0x%X\n", (value >> i * 8), programMemory->startAddress + address + i);
     }
 }
