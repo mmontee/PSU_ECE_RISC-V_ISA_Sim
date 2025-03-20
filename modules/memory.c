@@ -97,8 +97,7 @@ void write_memory(uint32_t address, memory_t *programMemory, uint8_t numBytes, u
     //Write Value
     for(int i = 0; i < numBytes; i++)
     {
-        programMemory->array[address + i] = (value >> (i * 8)) & 0xFF;
-       // printf("plaing 0x%X at 0x%X\n", (value >> i * 8), programMemory->startAddress + address + i);
-
+        programMemory->array[programMemory->startAddress + address + i] = (value >> i * 8);
+        printf("plaing 0x%X at 0x%X\n", (value >> i * 8), programMemory->startAddress + address + i);
     }
 }

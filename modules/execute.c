@@ -23,8 +23,8 @@ void execute_r_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;
         default:
             printf("Unknown func7 code in R-type\n");
-            //instruction->halt = 1;
-          //  break;
+            instruction->halt = 1;
+            break;
         }
         break;
     case 0x1:// sll
@@ -50,8 +50,8 @@ void execute_r_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;
         default:
             printf("Unknown func7 code in R-type\n");
-            //instruction->halt = 1;
-          //  break;
+            instruction->halt = 1;
+            break;
         }
         break;
     case 0x6:// or
@@ -62,8 +62,8 @@ void execute_r_type(decoded_instr_t *instruction, hardware_t *hrdwr)
         break;
     default:
         printf("Unknown func3 code in R-type\n");
-        //instruction->halt = 1;
-      //  break;
+        instruction->halt = 1;
+        break;
     }
 }
 
@@ -102,8 +102,8 @@ void execute_i_type(decoded_instr_t *instruction, hardware_t *hrdwr)
                         case 0x20: srai(instruction, hrdwr->registers); break;
                         default:
                         printf("Unknown funct7 code in I-type. opcode: 0x%X\n", instruction->opcode);
-                       // instruction->halt = 1;
-                      //  break;
+                        instruction->halt = 1;
+                        break;
                     }
                 } 
                     break;
@@ -115,8 +115,8 @@ void execute_i_type(decoded_instr_t *instruction, hardware_t *hrdwr)
                     break;                                     
                 default:
                     printf("Unknown funct3 code in I-type. opcode: 0x%X\n", instruction->opcode);
-                    //instruction->halt = 1;
-                  //  break;
+                    instruction->halt = 1;
+                    break;
             }
             break;
         case 0x03:// load ops
@@ -139,8 +139,8 @@ void execute_i_type(decoded_instr_t *instruction, hardware_t *hrdwr)
                     break;                                                                                                  
                 default:
                     printf("Unknown funct3 code in I-type. opcode: 0x%X\n", instruction->opcode);
-                    //instruction->halt = 1;
-                  //  break;
+                    instruction->halt = 1;
+                    break;
             }
             break;
         case 0x67:// jalr
@@ -157,14 +157,14 @@ void execute_i_type(decoded_instr_t *instruction, hardware_t *hrdwr)
                 break;
             default:
                 printf("Unknown imm code in I-type. opcode: 0x%X\n", instruction->opcode);
-               // instruction->halt = 1;
-              //  break;
+                instruction->halt = 1;
+                break;
             }        
             break;          
         default:
             printf("Unknown opcode code in I-type\n");
-            //instruction->halt = 1;
-          //  break;
+            instruction->halt = 1;
+            break;
     }
 }
 
@@ -188,8 +188,8 @@ void execute_s_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;                        
         default:
             printf("Unknown funct3 code in S-type\n");
-            //instruction->halt = 1;        
-           // break;
+            instruction->halt = 1;        
+            break;
     }
 }
 
@@ -221,8 +221,8 @@ void execute_b_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;                                                                       
         default:
             printf("Unknown funct3 code in B-type\n");
-            //instruction->halt = 1;        
-           // break;
+            instruction->halt = 1;        
+            break;
     }
 }
 
@@ -242,8 +242,8 @@ void execute_u_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;                     
         default:
             printf("Unknown opcode code in U-type\n");
-            //instruction->halt = 1;        
-           // break;
+            instruction->halt = 1;        
+            break;
     }
 }
 
@@ -259,8 +259,8 @@ void execute_j_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;
         default:
             printf("Unknown opcode code in U-type\n");
-            //instruction->halt = 1;        
-           // break;
+            instruction->halt = 1;        
+            break;
     }
 }
 

@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 		          break;
             default:
 		          printf("Unknown op-code\n");
-		        //  decodedInstruction.halt = 1;
+		          decodedInstruction.halt = 1;
 		          break;
         }
           
@@ -89,10 +89,10 @@ int main(int argc, char *argv[])
         /*
         #ifdef DEBUG  
             printf("\n");        
-      //      for(uint32_t i = 0; i < hardware.programMemory.instructionCount; i++)
-      //      {
-        //        printf("memory address 0x%08X = 0x%08X\n", i * 4, read_memory(i * 4, 0, &hardware.programMemory, 4));
-      //      }
+            for(uint32_t i = 0; i < hardware.programMemory.instructionCount; i++)
+            {
+                printf("memory address 0x%08X = 0x%08X\n", i * 4, read_memory(i * 4, 0, &hardware.programMemory, 4));
+            }
             printf("\n");
         #endif
             */
