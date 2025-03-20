@@ -212,7 +212,6 @@ void execute_b_type(decoded_instr_t *instruction, hardware_t *hrdwr)
             break;  
         case 0x5:// bge
             bge(instruction, hrdwr->registers,   &hrdwr->programCounter);
-            bge(instruction, hrdwr->registers,   &hrdwr->programCounter);
             break;  
         case 0x6:// bltu
             bltu(instruction, hrdwr->registers,   &hrdwr->programCounter);

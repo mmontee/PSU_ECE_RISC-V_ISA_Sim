@@ -161,13 +161,23 @@ void slti(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?
 
 void sltiu(decoded_instr_t *instruction, uint32_t *registers) //rd = (rs1 < imm)?1:0 zero extends
 {
-    int32_t imm = (int32_t)(instruction->imm << 20) >> 20; // Correct sign-extension for 12-bit immediate
-    if(instruction->rd != 0)
-    {
-        registers[instruction->rd] = (registers[instruction->rs1] < (uint32_t)imm) ? 1 : 0;
+    uint32_t imm = instruction->imm;
+
+    if (imm & (1 << 11)) {
+        imm |= 0xFFFFF000;
     }
+
+    if(instruction->rd != 0)
+
+    {
+        registers[instruction->rd] = (registers[instruction->rs1] < imm) ? 1 : 0;
+    }
+
     #ifdef DEBUG
-        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%d\n", instruction->rd, instruction->rs1, imm);
+
+
+        printf("Executed SLTIU: rd=%u, rs1=%u, imm=%u\n", instruction->rd, instruction->rs1, imm);
+
     #endif
 }
 
@@ -474,7 +484,7 @@ void beq(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm);
     if (rs1_value == rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -499,7 +509,7 @@ void bne(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm);
     if (rs1_value != rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -525,7 +535,7 @@ void blt(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm);
    printf("Current Program Counter (PC): 0x%08x\n", *programCounter);
    printf("%08x\n", instruction->imm);
     printf("%08x\n", instruction->imm << 1);
@@ -555,7 +565,7 @@ void bge(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCou
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm);
     if(rs1_value >= rs2_value)
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -581,7 +591,7 @@ void bltu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm);
     if ((uint32_t)rs1_value < (uint32_t)rs2_value) 
     {
         *(programCounter)  = targetAddress - 4; // The - 4 counters the PC + 4 in the main loop
@@ -607,7 +617,7 @@ void bgeu(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     {
         instruction->imm |= 0xFFFFE000;
     }
-    int32_t targetAddress = *(programCounter)  + (instruction->imm << 1);
+    int32_t targetAddress = *(programCounter)  + (instruction->imm);
     
     if ((uint32_t)rs1_value >= (uint32_t)rs2_value) 
     {
