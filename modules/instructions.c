@@ -445,6 +445,7 @@ void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
 {
     if(instruction->imm & 0x800)
     {
+<<<<<<< HEAD
         instruction->imm |= 0xFFFFF000;
     }
     uint32_t address = registers[instruction->rs1] + instruction->imm; 
@@ -452,7 +453,16 @@ void sw(decoded_instr_t *instruction, uint32_t *registers, memory_t *memory)
     #ifdef DEBUG
         printf("Executed SW:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction->rs1, instruction->rs2, address, instruction->rs2);
     #endif
+=======
+       instruction->imm |= 0xFFFFF000;
+ }
+    uint32_t address = registers[instruction->rs1] + (int32_t)instruction->imm; 
+>>>>>>> e089d35 (fix sw)
     write_memory(address, memory, 4, registers[instruction->rs2]);
+    #ifdef DEBUG
+        printf("Executed SW:: rs1=%u, rs2=%u address=0x%08x, value=%u\n", instruction->rs1, instruction->rs2, address, registers[instruction->rs2]);
+    #endif
+   
 }
 
 
