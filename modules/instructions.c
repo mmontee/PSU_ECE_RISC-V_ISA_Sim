@@ -377,8 +377,7 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
 
     uint32_t return_address = *(programCounter) + 4;  // Save return address (PC + 4)
 
-    // **Compute target address and ensure LSB is 0 (per RISC-V spec)**
-    *(programCounter) = ((registers[instruction->rs1] + imm) & ~1);
+   
 
     // **Store return address in rd (if not x0)**
     if (instruction->rd != 0) {  
@@ -398,7 +397,8 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
         instruction->halt = 1;
         return;
     }
-
+     // **Compute target address and ensure LSB is 0 (per RISC-V spec)**
+     *(programCounter) = ((registers[instruction->rs1] + imm) & ~1);
     *(programCounter) -= 4;
 }
 
@@ -676,13 +676,13 @@ void auipc(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programC
 void jal(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCounter)
 {
     uint32_t return_address = *(programCounter) + 4; // Address after current instruction
-    uint32_t imm = instruction->imm;
+    int32_t imm = instruction->imm;
 
     if (imm & (1 << 19)) {  // If bit 19 (sign bit) is 1
         imm |= 0xFFF00000;  // Sign-extend the upper 12 bits
     }
     
-    *(programCounter) = *(programCounter) + imm; // Jump to target address
+    *(programCounter) = (int32_t)(*(programCounter) + imm); // Jump to target address
 
 
     if (instruction->rd != 0) 
