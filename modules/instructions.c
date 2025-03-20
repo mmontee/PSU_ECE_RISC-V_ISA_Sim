@@ -377,7 +377,7 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
 
     uint32_t return_address = *(programCounter) + 4;  // Save return address (PC + 4)
 
-   
+    uint32_t newPC = ((registers[instruction->rs1] + imm) & ~1);
 
     // **Store return address in rd (if not x0)**
     if (instruction->rd != 0) {  
@@ -392,13 +392,13 @@ void jalr(decoded_instr_t *instruction, uint32_t *registers, uint32_t *programCo
     #endif
 
    // **Halt condition if return address (ra) is 0
-    if ( *(programCounter) == 0) { 
+    if ( newPC == 0) { 
         printf("Halt condition met: Return address (ra) is 0\n");
         instruction->halt = 1;
         return;
     }
      // **Compute target address and ensure LSB is 0 (per RISC-V spec)**
-     *(programCounter) = ((registers[instruction->rs1] + imm) & ~1);
+    *(programCounter) = newPC;
     *(programCounter) -= 4;
 }
 
